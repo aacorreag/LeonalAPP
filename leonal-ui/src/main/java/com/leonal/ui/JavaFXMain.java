@@ -15,20 +15,20 @@ public class JavaFXMain extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/fxml/pacientes.fxml"));
+      // Load Login instead of Pacientes initially
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/fxml/login.fxml"));
       if (controllerFactory != null) {
         loader.setControllerFactory(controllerFactory);
       }
 
       javafx.scene.Parent root = loader.load();
-      Scene scene = new Scene(root, 900, 600);
+      Scene scene = new Scene(root, 400, 300); // Smaller login window
 
       stage.setScene(scene);
-      stage.setTitle("leonalApp - Clinical System");
+      stage.setTitle("leonalApp - Login");
       stage.show();
     } catch (Exception e) {
       e.printStackTrace();
-      // Show error in a rudimentary way if UI fails
       System.err.println("CRITICAL UI ERROR: " + e.getMessage());
     }
   }
