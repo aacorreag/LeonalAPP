@@ -149,9 +149,14 @@
     -fx-background-color: #f8f9fa;
 }
 
-.table-row-cell:filled:selected {
+.table-row-cell:filled:selected, 
+.table-row-cell:filled:selected .table-cell {
     -fx-background-color: #e7f1ff;
     -fx-text-fill: #0078D7;
+}
+
+.table-row-cell:filled:selected .text {
+    -fx-fill: #0078D7;
 }
 
 /* --- Card Dashboard (Action Button) --- */
