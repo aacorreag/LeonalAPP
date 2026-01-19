@@ -21,4 +21,6 @@ public class Rol {
   public static final String RECEPCION = "RECEPCION";
   public static final String BIOANALISTA = "BIOANALISTA";
   public static final String VALIDADOR = "VALIDADOR";
+  public static final String MEDICO = "MEDICO";
+  public static final String CONSULTA = "CONSULTA";
 }

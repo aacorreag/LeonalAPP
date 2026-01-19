@@ -5,39 +5,55 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.LoginController">
-    <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-    </padding>
+<StackPane stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.LoginController">
+   <children>
+      <!-- Background (Optional: Add a subtle clinical background image here later if needed) -->
+      
+      <!-- Center Card -->
+      <VBox alignment="CENTER" maxHeight="520.0" maxWidth="420.0" spacing="20.0" styleClass="card">
+          <padding>
+              <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+          </padding>
+      
+          <ImageView fitHeight="150.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                <Image url="@/images/logo.png" />
+             </image>
+             <VBox.margin>
+                <Insets bottom="10.0" />
+             </VBox.margin>
+          </ImageView>
 
-    <Label text="leonalApp">
-        <font>
-            <Font name="System Bold" size="36.0" />
-        </font>
-    </Label>
-    <Label text="Acceso al Sistema">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
-   <VBox maxWidth="300.0" spacing="5.0">
-      <children>
-         <Label text="Usuario" />
-          <TextField fx:id="txtUsername" />
-      </children>
-   </VBox>
-   <VBox maxWidth="300.0" spacing="5.0">
-      <children>
-         <Label text="Contraseña" />
-          <PasswordField fx:id="txtPassword" />
-      </children>
-   </VBox>
-    
-    <Button defaultButton="true" onAction="#login" prefWidth="200.0" text="Iniciar Sesión" textAlignment="CENTER">
-      <font>
-         <Font size="14.0" />
-      </font></Button>
-</VBox>
+          <VBox alignment="CENTER" spacing="5.0">
+             <children>
+                <Label styleClass="title-label" text="Bienvenido" />
+                <Label styleClass="subtitle-label" text="Ingrese sus credenciales para continuar" />
+             </children>
+          </VBox>
+      
+         <VBox maxWidth="340.0" spacing="8.0">
+            <children>
+               <Label styleClass="form-label" text="Usuario" />
+               <TextField fx:id="txtUsername" promptText="ej. admin" />
+            </children>
+         </VBox>
+         
+         <VBox maxWidth="340.0" spacing="8.0">
+            <children>
+               <Label styleClass="form-label" text="Contraseña" />
+               <PasswordField fx:id="txtPassword" promptText="••••••••" />
+            </children>
+         </VBox>
+          
+         <Region prefHeight="10.0" />
+      
+          <Button defaultButton="true" maxWidth="340.0" onAction="#login" styleClass="button-primary" text="INICIAR SESIÓN" />
+      </VBox>
+   </children>
+</StackPane>

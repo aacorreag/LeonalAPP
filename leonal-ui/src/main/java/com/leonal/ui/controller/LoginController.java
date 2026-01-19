@@ -36,9 +36,9 @@ public class LoginController {
 
       mostrarAlerta("Bienvenido", "Acceso concedido a: " + user.getNombreCompleto());
 
-      // Navigate using interface
-      viewNavigator.closeLogin();
-      viewNavigator.navigateToDashboard();
+      // Navigate using interface (Update for Dashboard Layout)
+      viewNavigator.closeCurrentWindow();
+      viewNavigator.navigateToMainLayout();
 
     } catch (IllegalArgumentException e) {
       mostrarAlerta("Error de Acceso", "Credenciales Inválidas");
@@ -54,13 +54,5 @@ public class LoginController {
     alert.setHeaderText(null);
     alert.setContentText(mensaje);
     alert.showAndWait();
-  }
-
-  // Helper to close self if needed by controller logic, but Navigator handles
-  // main flow
-  public void closeWindow() {
-    if (txtUsername.getScene() != null && txtUsername.getScene().getWindow() != null) {
-      txtUsername.getScene().getWindow().hide();
-    }
   }
 }

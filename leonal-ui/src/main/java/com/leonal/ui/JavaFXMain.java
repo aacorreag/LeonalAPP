@@ -22,7 +22,7 @@ public class JavaFXMain extends Application {
       }
 
       javafx.scene.Parent root = loader.load();
-      Scene scene = new Scene(root, 400, 300); // Smaller login window
+      Scene scene = new Scene(root, 900, 600); // Standard minimal size
 
       stage.setScene(scene);
       stage.setTitle("leonalApp - Login");

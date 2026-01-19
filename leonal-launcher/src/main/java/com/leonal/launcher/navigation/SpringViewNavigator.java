@@ -15,30 +15,45 @@ public class SpringViewNavigator implements ViewNavigator {
   private final ApplicationContext springContext;
 
   @Override
-  public void navigateToDashboard() {
+  public void navigateToMainLayout() {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pacientes.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main_layout.fxml"));
       loader.setControllerFactory(springContext::getBean);
       Parent root = loader.load();
 
-      Stage dashboardStage = new Stage();
-      dashboardStage.setTitle("leonalApp - Dashboard");
-      dashboardStage.setScene(new Scene(root, 900, 600));
-      dashboardStage.show();
+      Stage mainStage = new Stage();
+      mainStage.setTitle("leonalApp - Clinical System");
+      mainStage.setScene(new Scene(root, 1000, 700));
+      mainStage.setMaximized(true);
+      mainStage.show();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void closeLogin() {
-    // We find the active window by a hack or passed reference.
-    // For simplicity in this vertical slice, we rely on the Controller to close
-    // itself
-    // OR we track the stage. Ideally, navigator should manage stages.
-    // Here, we just assume the old windows are closed by the user or hidden.
+  public void navigateToLogin() {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+      loader.setControllerFactory(springContext::getBean);
+      Parent root = loader.load();
+
+      Stage loginStage = new Stage();
+      loginStage.setTitle("leonalApp - Login");
+      loginStage.setScene(new Scene(root, 900, 600));
+      loginStage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void closeCurrentWindow() {
+    // Simple strategy: Close active window.
+    // In complex apps, we might pass the Stage source.
     Window.getWindows().stream()
         .filter(Window::isShowing)
+        .filter(w -> w instanceof Stage)
         .findFirst()
         .ifPresent(Window::hide);
   }

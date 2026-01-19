@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.ExamenesController">
+   <children>
+      <SplitPane dividerPositions="0.6" layoutX="200.0" layoutY="120.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
+               <children>
+                  <VBox prefHeight="598.0" prefWidth="536.0" spacing="15.0" style="-fx-background-color: #f4f6f9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label styleClass="header-label" text="Catálogo de Exámenes" />
+                              <HBox HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoExamen" styleClass="button-primary" text="+ Nuevo" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tablaExamenes" styleClass="table-view" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="colCodigo" prefWidth="80.0" text="Código" />
+                            <TableColumn fx:id="colNombre" prefWidth="180.0" text="Examen" />
+                            <TableColumn fx:id="colMetodo" prefWidth="100.0" text="Método" />
+                            <TableColumn fx:id="colPrecio" prefWidth="80.0" text="Precio" />
+                            <TableColumn fx:id="colActivo" prefWidth="70.0" text="Activo" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="10.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
+               <children>
+                  <VBox fx:id="formContainer" spacing="15.0" styleClass="card" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <Label fx:id="lblFormTitle" styleClass="title-label" text="Nuevo Examen" />
+                        
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label styleClass="form-label" text="Código Interno" />
+                              <TextField fx:id="txtCodigo" promptText="ej. GLU01" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label styleClass="form-label" text="Nombre del Examen" />
+                              <TextField fx:id="txtNombre" promptText="Ej. Glucosa Basal" />
+                           </children>
+                        </VBox>
+                        
+                        <HBox spacing="10.0">
+                            <children>
+                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                   <children>
+                                      <Label styleClass="form-label" text="Precio (COP)" />
+                                      <TextField fx:id="txtPrecio" promptText="0" />
+                                   </children>
+                                </VBox>
+                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                   <children>
+                                      <Label styleClass="form-label" text="Unidad de Medida" />
+                                      <TextField fx:id="txtUnidad" promptText="ej. mg/dL" />
+                                   </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label styleClass="form-label" text="Método" />
+                              <TextField fx:id="txtMetodo" promptText="Enzimático" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label styleClass="form-label" text="Tipo Resultado" />
+                              <ComboBox fx:id="cmbTipoResultado" maxWidth="Infinity" />
+                           </children>
+                        </VBox>
+                        
+                        <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Examen Activo" />
+                        
+                        <VBox VBox.vgrow="ALWAYS" /> <!-- Spacer -->
+                        
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="button-secondary" text="Cancelar" />
+                              <Button mnemonicParsing="false" onAction="#guardarExamen" styleClass="button-primary" text="Guardar" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+                  <Label fx:id="lblEmptySelection" layoutX="50.0" layoutY="280.0" text="Seleccione un examen para editar&#10;o agregue uno nuevo." textAlignment="CENTER" textFill="#999999" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

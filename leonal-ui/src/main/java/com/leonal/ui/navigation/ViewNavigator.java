@@ -1,7 +1,9 @@
 package com.leonal.ui.navigation;
 
 public interface ViewNavigator {
-  void navigateToDashboard();
+  void navigateToMainLayout(); // Replaces navigateToDashboard
 
-  void closeLogin();
+  void navigateToLogin();
+
+  void closeCurrentWindow();
 }
