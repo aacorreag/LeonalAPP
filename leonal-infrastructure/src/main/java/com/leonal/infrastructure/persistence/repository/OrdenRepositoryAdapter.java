@@ -49,12 +49,14 @@ public class OrdenRepositoryAdapter implements OrdenRepositoryPort {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<Orden> findById(@NonNull UUID id) {
     return ordenJpaRepository.findById(id)
         .map(ordenMapper::toDomain);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Orden> findAll() {
     return ordenJpaRepository.findAllByOrderByFechaRecepcionDesc()
         .stream()
@@ -63,6 +65,7 @@ public class OrdenRepositoryAdapter implements OrdenRepositoryPort {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Orden> findByPacienteId(@NonNull UUID pacienteId) {
     return ordenJpaRepository.findByPacienteIdOrderByFechaRecepcionDesc(pacienteId)
         .stream()
@@ -71,6 +74,7 @@ public class OrdenRepositoryAdapter implements OrdenRepositoryPort {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public long countByFecha(@NonNull LocalDate fecha) {
     LocalDateTime startOfDay = fecha.atStartOfDay();
     LocalDateTime endOfDay = fecha.atTime(LocalTime.MAX);

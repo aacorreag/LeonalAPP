@@ -34,7 +34,7 @@
             </Button>
             
             <!-- Card Ordenes -->
-            <Button mnemonicParsing="false" prefHeight="160.0" prefWidth="250.0" styleClass="action-card">
+            <Button mnemonicParsing="false" onAction="#goOrdenes" prefHeight="160.0" prefWidth="250.0" styleClass="action-card">
                <graphic>
                   <VBox alignment="CENTER" spacing="10.0">
                      <children>

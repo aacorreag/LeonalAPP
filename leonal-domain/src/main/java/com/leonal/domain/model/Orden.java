@@ -17,12 +17,13 @@ import java.util.UUID;
 public class Orden {
     private UUID id;
     private String codigoOrden;
+    private Integer numeroOrden;
     private Paciente paciente;
     private UUID medicoId;
     private LocalDateTime fechaRecepcion;
     private String estado;
     private UUID usuarioCreacionId;
     private BigDecimal total;
-    
+
     private List<OrdenDetalle> detalles;
 }

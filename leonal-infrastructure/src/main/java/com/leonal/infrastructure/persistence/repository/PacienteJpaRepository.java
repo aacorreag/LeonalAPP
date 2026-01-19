@@ -3,6 +3,7 @@ package com.leonal.infrastructure.persistence.repository;
 import com.leonal.infrastructure.persistence.entity.PacienteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,5 +15,5 @@ public interface PacienteJpaRepository extends JpaRepository<PacienteEntity, UUI
   Optional<PacienteEntity> findByTipoDocumentoAndNumeroDocumento(String tipoDocumento, String numeroDocumento);
 
   @Query("SELECT p FROM PacienteEntity p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :query, '%')) OR p.numeroDocumento LIKE CONCAT('%', :query, '%')")
-  List<PacienteEntity> search(String query);
+  List<PacienteEntity> search(@Param("query") String query);
 }

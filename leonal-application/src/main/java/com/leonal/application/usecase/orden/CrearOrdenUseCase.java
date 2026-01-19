@@ -41,8 +41,11 @@ public class CrearOrdenUseCase {
       throw new IllegalArgumentException("Debe seleccionar al menos un examen");
     }
 
-    // 3. Generar código de orden
-    String codigoOrden = generarCodigoOrden();
+    // 3. Generar número y código de orden
+    LocalDate hoy = LocalDate.now();
+    long contador = ordenRepository.countByFecha(hoy) + 1;
+    String fechaParte = hoy.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    String codigoOrden = String.format("ORD-%s-%03d", fechaParte, contador);
 
     // 4. Calcular total
     BigDecimal total = examenes.stream()
@@ -62,6 +65,7 @@ public class CrearOrdenUseCase {
     // 6. Crear orden
     Orden orden = Orden.builder()
         .codigoOrden(codigoOrden)
+        .numeroOrden((int) contador)
         .paciente(paciente)
         .medicoId(request.getMedicoId())
         .fechaRecepcion(LocalDateTime.now())
