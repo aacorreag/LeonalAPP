@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.leonal.ui.controller.OrdenesController"
+      spacing="20" styleClass="root" alignment="TOP_CENTER"
+      VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="📋 Órdenes de Laboratorio" styleClass="title-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnNuevaOrden" text="+ Nueva Orden" styleClass="button button-primary" onAction="#abrirNuevaOrden"/>
+    </HBox>
+
+    <!-- Tabla de Órdenes -->
+    <TableView fx:id="tablaOrdenes" VBox.vgrow="ALWAYS" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="colCodigo" text="Código" prefWidth="120"/>
+            <TableColumn fx:id="colPaciente" text="Paciente" prefWidth="200"/>
+            <TableColumn fx:id="colDocumento" text="Documento" prefWidth="120"/>
+            <TableColumn fx:id="colFecha" text="Fecha" prefWidth="150"/>
+            <TableColumn fx:id="colEstado" text="Estado" prefWidth="100"/>
+            <TableColumn fx:id="colItems" text="Exámenes" prefWidth="80"/>
+            <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
+        </columns>
+        <placeholder><Label text="No hay órdenes registradas"/></placeholder>
+    </TableView>
+
+    <!-- Dialog para Nueva Orden (inicialmente oculto, manejado por código) -->
+</VBox>

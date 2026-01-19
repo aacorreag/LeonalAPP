@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication(scanBasePackages = "com.leonal")
-@EnableJpaRepositories(basePackages = "com.leonal.infrastructure.persistence.repository")
-@EntityScan(basePackages = "com.leonal.infrastructure.persistence.entity")
+@EnableJpaRepositories(basePackages = "com.leonal") // <--- Busca en TODO el proyecto, incluyendo .jpa
+@EntityScan(basePackages = "com.leonal") // <--- Busca entidades en TODO el proyecto
 public class LeonalLauncher {
 
   public static ConfigurableApplicationContext context;

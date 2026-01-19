@@ -57,8 +57,8 @@
             
             <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goHome" styleClass="menu-button" text="Inicio" />
             <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goPacientes" styleClass="menu-button" text="Pacientes" />
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goOrdenes" styleClass="menu-button" text="Órdenes (WIP)" />
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goExamenes" styleClass="menu-button" text="Catálogo (WIP)" />
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goOrdenes" styleClass="menu-button" text="Órdenes" />
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goExamenes" styleClass="menu-button" text="Catálogo" />
             
             <Region prefHeight="20.0" />
             

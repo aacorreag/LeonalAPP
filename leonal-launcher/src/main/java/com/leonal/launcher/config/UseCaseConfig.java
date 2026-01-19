@@ -8,13 +8,13 @@ import com.leonal.application.usecase.examen.ListarExamenesUseCase;
 import com.leonal.application.usecase.examen.GuardarExamenUseCase;
 import com.leonal.application.usecase.user.ListarRolesUseCase;
 import com.leonal.application.usecase.user.ListarUsuariosUseCase;
-import com.leonal.domain.port.output.PacienteRepositoryPort;
-import com.leonal.domain.port.output.UsuarioRepositoryPort;
-import com.leonal.domain.port.output.RolRepositoryPort;
+import com.leonal.application.usecase.orden.CrearOrdenUseCase;
+import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
 import com.leonal.domain.port.output.PacienteRepositoryPort;
 import com.leonal.domain.port.output.UsuarioRepositoryPort;
 import com.leonal.domain.port.output.RolRepositoryPort;
 import com.leonal.domain.port.output.ExamenRepositoryPort;
+import com.leonal.domain.port.output.OrdenRepositoryPort;
 import com.leonal.domain.port.output.PasswordEncoderPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,5 +64,20 @@ public class UseCaseConfig {
   @Bean
   public GuardarExamenUseCase guardarExamenUseCase(ExamenRepositoryPort repository) {
     return new GuardarExamenUseCase(repository);
+  }
+
+  // Orden Use Cases
+
+  @Bean
+  public CrearOrdenUseCase crearOrdenUseCase(
+      OrdenRepositoryPort ordenRepository,
+      PacienteRepositoryPort pacienteRepository,
+      ExamenRepositoryPort examenRepository) {
+    return new CrearOrdenUseCase(ordenRepository, pacienteRepository, examenRepository);
+  }
+
+  @Bean
+  public ListarOrdenesUseCase listarOrdenesUseCase(OrdenRepositoryPort ordenRepository) {
+    return new ListarOrdenesUseCase(ordenRepository);
   }
 }

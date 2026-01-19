@@ -14,4 +14,8 @@ public class ListarPacientesUseCase {
   public List<Paciente> execute() {
     return pacienteRepository.findAll();
   }
+
+  public List<Paciente> buscar(String query) {
+    return pacienteRepository.search(query);
+  }
 }

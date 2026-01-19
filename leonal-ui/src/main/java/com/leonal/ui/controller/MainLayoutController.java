@@ -99,7 +99,7 @@ public class MainLayoutController {
 
   @FXML
   public void goOrdenes() {
-    // WIP
+    loadCenterView("/fxml/ordenes.fxml");
   }
 
   @FXML

@@ -30,7 +30,7 @@ public class DashboardController {
   // Placeholder for WIP
   @FXML
   public void goOrdenes() {
-    // TODO: Implement
+    eventPublisher.publishEvent(new NavigationEvent(this, "/fxml/ordenes.fxml"));
   }
 
   @FXML
