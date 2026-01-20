@@ -1,5 +1,10 @@
-# Maven
+# Compilados y builds
 target/
+build/
+out/
+*.class
+
+# Archivos de paquetes y distribución
 *.jar
 *.war
 *.ear
@@ -7,25 +12,110 @@ target/
 *.tar.gz
 *.rar
 
-# IDEs
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Node / NPM (para el módulo leonal-ui)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# Builds de UI
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist
+.serverless/
+
+# IDEs y editores
 .idea/
 *.iml
+*.iws
+*.ipr
 .vscode/
+*.swp
+*.swo
+*~
 .project
 .classpath
 .settings/
 *.launch
 bin/
+*.sublime-workspace
+*.sublime-project
+.metadata/
 
-# OS
+# Sistema operativo
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# Logs
+# Logs y temporales
 *.log
 logs/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~.nib
+local.properties
 
-# User specific
+# Archivos sensibles y configuraciones locales
 secrets.properties
 users.properties
+application-local.yml
+application-local.properties
+*.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+.hypothesis/
+.pytest_cache/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Base de datos local
+*.db
+*.sqlite
+*.sqlite3
+h2/
+
+# Spring Boot
+spring-shell.log
+.springBeans
+
+# Archivos específicos del proyecto
+build_output.log
+build_error.log
+build_final_output.log
+run_output*.log
+ui_build_error.log
+maven.zip
+apache-maven-*/
