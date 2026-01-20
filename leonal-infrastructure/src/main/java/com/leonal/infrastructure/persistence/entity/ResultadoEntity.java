@@ -25,8 +25,9 @@ public class ResultadoEntity {
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private UUID id;
 
-  @Column(name = "orden_detalle_id", nullable = false, unique = true)
-  private UUID ordenDetalleId;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "orden_detalle_id", nullable = false, unique = true)
+  private OrdenDetalleEntity ordenDetalle;
 
   @Column(length = 500)
   private String valor;

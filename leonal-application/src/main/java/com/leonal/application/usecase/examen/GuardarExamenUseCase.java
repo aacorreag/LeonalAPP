@@ -31,6 +31,7 @@ public class GuardarExamenUseCase {
         .metodo(request.getMetodo())
         .tipoResultado(request.getTipoResultado())
         .unidadMedida(request.getUnidadMedida())
+        .valoresReferencia(request.getValoresReferencia())
         .precio(request.getPrecio())
         .activo(request.isActivo())
         .build();
@@ -44,6 +45,7 @@ public class GuardarExamenUseCase {
         .metodo(saved.getMetodo())
         .tipoResultado(saved.getTipoResultado())
         .unidadMedida(saved.getUnidadMedida())
+        .valoresReferencia(saved.getValoresReferencia())
         .precio(saved.getPrecio())
         .activo(saved.isActivo())
         .build();

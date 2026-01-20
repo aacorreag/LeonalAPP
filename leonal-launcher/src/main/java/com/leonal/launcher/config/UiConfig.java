@@ -11,14 +11,10 @@ import com.leonal.application.usecase.examen.GuardarExamenUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
-import com.leonal.ui.controller.PacienteController;
-import com.leonal.ui.controller.LoginController;
-import com.leonal.ui.controller.MainLayoutController;
-import com.leonal.ui.controller.DashboardController;
-import com.leonal.ui.controller.UsuariosController;
-import com.leonal.ui.controller.ExamenesController;
-import com.leonal.ui.controller.OrdenesController;
-import com.leonal.ui.controller.NuevaOrdenController;
+import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
+import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
+import com.leonal.application.usecase.resultado.GenerarReporteResultadosUseCase;
+import com.leonal.ui.controller.*;
 import com.leonal.ui.context.UserSession;
 import com.leonal.ui.navigation.ViewNavigator;
 import com.leonal.ui.navigation.ViewLoader;
@@ -28,7 +24,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
@@ -40,36 +35,23 @@ public class UiConfig {
   }
 
   @Bean
-  public ViewNavigator viewNavigator(ApplicationContext context) {
-    return new SpringViewNavigator(context);
+  public ViewLoader viewLoader(ApplicationContext applicationContext) {
+    return new SpringViewLoader(applicationContext);
   }
 
   @Bean
-  public ViewLoader viewLoader(ApplicationContext context) {
-    return new SpringViewLoader(context);
-  }
-
-  // Controllers
-
-  @Bean
-  public PacienteController pacienteController(
-      CrearPacienteUseCase crearPacienteUseCase,
-      ListarPacientesUseCase listarPacientesUseCase) {
-    return new PacienteController(crearPacienteUseCase, listarPacientesUseCase);
+  public ViewNavigator viewNavigator(ApplicationContext applicationContext) {
+    return new SpringViewNavigator(applicationContext);
   }
 
   @Bean
-  public LoginController loginController(
-      AutenticarUsuarioUseCase authUseCase,
-      UserSession userSession,
+  public LoginController loginController(AutenticarUsuarioUseCase autenticarUsuario, UserSession userSession,
       ViewNavigator viewNavigator) {
-    return new LoginController(authUseCase, userSession, viewNavigator);
+    return new LoginController(autenticarUsuario, userSession, viewNavigator);
   }
 
   @Bean
-  public MainLayoutController mainLayoutController(
-      UserSession userSession,
-      ViewLoader viewLoader,
+  public MainLayoutController mainLayoutController(UserSession userSession, ViewLoader viewLoader,
       ViewNavigator viewNavigator) {
     return new MainLayoutController(userSession, viewLoader, viewNavigator);
   }
@@ -77,6 +59,13 @@ public class UiConfig {
   @Bean
   public DashboardController dashboardController(UserSession userSession, ApplicationEventPublisher eventPublisher) {
     return new DashboardController(userSession, eventPublisher);
+  }
+
+  @Bean
+  public PacienteController pacienteController(
+      CrearPacienteUseCase crearPaciente,
+      ListarPacientesUseCase listarPacientes) {
+    return new PacienteController(crearPaciente, listarPacientes);
   }
 
   @Bean
@@ -96,12 +85,11 @@ public class UiConfig {
   }
 
   @Bean
-  @Scope("prototype")
   public OrdenesController ordenesController(
       ListarOrdenesUseCase listarOrdenes,
-      GenerarComprobanteOrdenUseCase generarComprobanteOrden,
+      GenerarComprobanteOrdenUseCase generarComprobante,
       ApplicationContext applicationContext) {
-    return new OrdenesController(listarOrdenes, generarComprobanteOrden, applicationContext);
+    return new OrdenesController(listarOrdenes, generarComprobante, applicationContext);
   }
 
   @Bean
@@ -112,5 +100,25 @@ public class UiConfig {
       ListarPacientesUseCase listarPacientes,
       UserSession userSession) {
     return new NuevaOrdenController(crearOrden, listarExamenes, listarPacientes, userSession);
+  }
+
+  @Bean
+  public ResultadosController resultadosController(
+      ListarOrdenesUseCase listarOrdenes,
+      IngresarResultadosUseCase ingresarResultados,
+      ValidarOrdenUseCase validarOrden,
+      GenerarReporteResultadosUseCase generarReporte,
+      UserSession userSession,
+      ApplicationContext applicationContext) {
+    return new ResultadosController(listarOrdenes, ingresarResultados, validarOrden, generarReporte, userSession,
+        applicationContext);
+  }
+
+  @Bean
+  @Scope("prototype")
+  public IngresoResultadosDialogController ingresoResultadosDialogController(
+      IngresarResultadosUseCase ingresarResultados,
+      UserSession userSession) {
+    return new IngresoResultadosDialogController(ingresarResultados, userSession);
   }
 }

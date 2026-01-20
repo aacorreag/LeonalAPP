@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" prefWidth="600" styleClass="dialog-pane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.IngresoResultadosDialogController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <children>
+        <Label styleClass="header-title" fx:id="lblTitulo" text="Resultados de Orden: [Numero]" />
+        
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+            <content>
+                <VBox fx:id="vboxExamenes" spacing="10">
+                    <!-- Dinámicamente se añadirán aquí los campos de cada examen -->
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button onAction="#cancelar" styleClass="button-secondary" text="Cancelar" />
+            <Button onAction="#guardar" styleClass="button-primary" text="Guardar Resultados" />
+        </HBox>
+    </children>
+</VBox>

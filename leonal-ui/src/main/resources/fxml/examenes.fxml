@@ -97,6 +97,13 @@
                               <ComboBox fx:id="cmbTipoResultado" maxWidth="Infinity" />
                            </children>
                         </VBox>
+
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label styleClass="form-label" text="Valores de Referencia" />
+                              <TextField fx:id="txtValoresReferencia" promptText="ej. 70 - 110 mg/dL" />
+                           </children>
+                        </VBox>
                         
                         <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Examen Activo" />
                         

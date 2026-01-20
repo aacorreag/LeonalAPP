@@ -19,6 +19,7 @@ public class Examen {
     private String metodo;
     private String tipoResultado; // NUMERICO, TEXTO
     private String unidadMedida;
+    private String valoresReferencia;
     private BigDecimal precio;
     private boolean activo;
 }

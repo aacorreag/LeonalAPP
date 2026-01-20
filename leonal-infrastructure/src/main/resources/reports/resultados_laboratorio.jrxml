@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resultados_laboratorio" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="7a66133a-1d2a-4c28-98e3-0d3f82e0fb5a">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    
+    <parameter name="LOGO_PATH" class="java.io.InputStream"/>
+    <parameter name="PACIENTE_NOMBRE" class="java.lang.String"/>
+    <parameter name="PACIENTE_DOC" class="java.lang.String"/>
+    <parameter name="PACIENTE_EDAD" class="java.lang.String"/>
+    <parameter name="PACIENTE_SEXO" class="java.lang.String"/>
+    <parameter name="CODIGO_ORDEN" class="java.lang.String"/>
+    <parameter name="FECHA_REPORT" class="java.lang.String"/>
+    <parameter name="MEDICO" class="java.lang.String"/>
+
+    <field name="examen.nombre" class="java.lang.String"/>
+    <field name="examen.unidadMedida" class="java.lang.String"/>
+    <field name="examen.valoresReferencia" class="java.lang.String"/>
+    <field name="resultado.valor" class="java.lang.String"/>
+    <field name="resultado.observacionReporte" class="java.lang.String"/>
+    <field name="resultado.esPatologico" class="java.lang.Boolean"/>
+
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+
+    <title>
+        <band height="150" splitType="Stretch">
+            <!-- Logo y Titulo -->
+            <image scaleImage="RetainShape">
+                <reportElement x="0" y="0" width="220" height="60" uuid="559fb97a-9694-498c-8433-e96283fcbe6f"/>
+                <imageExpression><![CDATA[$P{LOGO_PATH}]]></imageExpression>
+            </image>
+            
+            <staticText>
+                <reportElement x="250" y="10" width="285" height="40" forecolor="#003366" uuid="e3b0c442-98fc-11eb-ae93-0242ac130002"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[INFORME DE RESULTADOS]]></text>
+            </staticText>
+
+            <!-- Cuadro Informativo Paciente -->
+            <rectangle radius="5">
+                <reportElement x="0" y="70" width="535" height="70" forecolor="#CCCCCC" backcolor="#F9F9F9" uuid="f8e815bc-98fc-11eb-ae93-0242ac130002"/>
+            </rectangle>
+            
+            <staticText><reportElement x="10" y="75" width="60" height="15" uuid="37829471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Paciente:]]></text></staticText>
+            <textField><reportElement x="75" y="75" width="200" height="15" uuid="3d8e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{PACIENTE_NOMBRE}]]></textFieldExpression></textField>
+            
+            <staticText><reportElement x="10" y="95" width="60" height="15" uuid="428e9471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Documento:]]></text></staticText>
+            <textField><reportElement x="75" y="95" width="100" height="15" uuid="468e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{PACIENTE_DOC}]]></textFieldExpression></textField>
+            
+            <staticText><reportElement x="300" y="75" width="60" height="15" uuid="4a8e9471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Edad:]]></text></staticText>
+            <textField><reportElement x="365" y="75" width="50" height="15" uuid="4e8e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{PACIENTE_EDAD}]]></textFieldExpression></textField>
+            
+            <staticText><reportElement x="300" y="95" width="60" height="15" uuid="528e9471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Sexo:]]></text></staticText>
+            <textField><reportElement x="365" y="95" width="100" height="15" uuid="568e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{PACIENTE_SEXO}]]></textFieldExpression></textField>
+            
+            <staticText><reportElement x="10" y="115" width="60" height="15" uuid="5a8e9471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Orden N°:]]></text></staticText>
+            <textField><reportElement x="75" y="115" width="100" height="15" uuid="5e8e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{CODIGO_ORDEN}]]></textFieldExpression></textField>
+            
+            <staticText><reportElement x="300" y="115" width="60" height="15" uuid="628e9471-96fc-11eb-ae93-0242ac130002"/><textElement><font isBold="true"/></textElement><text><![CDATA[Fecha:]]></text></staticText>
+            <textField><reportElement x="365" y="115" width="150" height="15" uuid="668e9471-96fc-11eb-ae93-0242ac130002"/><textFieldExpression><![CDATA[$P{FECHA_REPORT}]]></textFieldExpression></textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <line>
+                <reportElement positionType="FixRelativeToBottom" x="0" y="25" width="535" height="1" forecolor="#003366" uuid="e3b0c442-98fc-11eb-ae93-0242ac130006"/>
+                <graphicElement><pen lineWidth="1.5"/></graphicElement>
+            </line>
+            <staticText>
+                <reportElement x="0" y="0" width="180" height="25" forecolor="#003366" uuid="e3b0c442-9900-11eb-ae93-0242ac130002"/><textElement verticalAlignment="Middle"><font isBold="true"/> </textElement><text><![CDATA[NOMBRE DEL EXAMEN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="180" y="0" width="100" height="25" forecolor="#003366" uuid="e3b0c442-9901-11eb-ae93-0242ac130002"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/> </textElement><text><![CDATA[RESULTADO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="0" width="80" height="25" forecolor="#003366" uuid="e3b0c442-9902-11eb-ae93-0242ac130002"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/> </textElement><text><![CDATA[UNIDADES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="0" width="175" height="25" forecolor="#003366" uuid="e3b0c442-9903-11eb-ae93-0242ac130002"/><textElement verticalAlignment="Middle"><font isBold="true"/> </textElement><text><![CDATA[VALORES DE REFERENCIA / OBS]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="40" splitType="Stretch">
+            <textField isStretchWithOverflow="true">
+                <reportElement x="0" y="5" width="180" height="15" uuid="d1829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement verticalAlignment="Top"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$F{examen.nombre}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="5" width="100" height="15" uuid="d2829471-96fc-11eb-ae93-0242ac130002">
+                    <printWhenExpression><![CDATA[!$F{resultado.esPatologico}]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Top"><font isBold="false"/></textElement>
+                <textFieldExpression><![CDATA[$F{resultado.valor}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="5" width="100" height="15" forecolor="#FF0000" uuid="d28e9471-96fc-11eb-ae93-0242ac130002">
+                    <printWhenExpression><![CDATA[$F{resultado.esPatologico}]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Top"><font isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$F{resultado.valor} + " *"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="280" y="5" width="80" height="15" uuid="d3829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement textAlignment="Center" verticalAlignment="Top"/>
+                <textFieldExpression><![CDATA[$F{examen.unidadMedida}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="360" y="5" width="175" height="15" forecolor="#666666" uuid="d4829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement verticalAlignment="Top"><font size="9" isItalic="true"/></textElement>
+                <textFieldExpression><![CDATA[($F{examen.valoresReferencia} != null && !$F{examen.valoresReferencia}.isEmpty()) ? $F{examen.valoresReferencia} : ($F{resultado.observacionReporte} != null ? $F{resultado.observacionReporte} : "Ver rangos adjuntos")]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="35" width="535" height="1" forecolor="#EEEEEE" uuid="c1829471-96fc-11eb-ae93-0242ac130002"/>
+            </line>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="50" splitType="Stretch">
+            <line>
+                <reportElement x="0" y="5" width="535" height="1" forecolor="#003366" uuid="f1829471-96fc-11eb-ae93-0242ac130002"/>
+            </line>
+            <staticText>
+                <reportElement x="0" y="10" width="535" height="15" forecolor="#999999" uuid="f2829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement textAlignment="Center"><font size="8"/></textElement>
+                <text><![CDATA[Leonal Gestión de Laboratorio - Software de Calidad Analítica]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="435" y="25" width="80" height="20" forecolor="#999999" uuid="f3829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement textAlignment="Right"><font size="8"/></textElement>
+                <textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="515" y="25" width="20" height="20" forecolor="#999999" uuid="f4829471-96fc-11eb-ae93-0242ac130002"/>
+                <textElement><font size="8"/></textElement>
+                <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+</jasperReport>

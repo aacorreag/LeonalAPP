@@ -64,6 +64,9 @@
             <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goOrdenes" styleClass="menu-button" text="Órdenes">
                <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="🧪" /></graphic>
             </Button>
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goResultados" styleClass="menu-button" text="Resultados">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="🔬" /></graphic>
+            </Button>
             <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goExamenes" styleClass="menu-button" text="Catálogo">
                <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="📋" /></graphic>
             </Button>

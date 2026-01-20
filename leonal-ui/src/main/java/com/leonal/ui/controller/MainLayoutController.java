@@ -103,6 +103,11 @@ public class MainLayoutController {
   }
 
   @FXML
+  public void goResultados() {
+    loadCenterView("/fxml/resultados.fxml");
+  }
+
+  @FXML
   public void goUsuarios() {
     loadCenterView("/fxml/usuarios.fxml");
   }

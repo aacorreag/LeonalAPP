@@ -27,6 +27,7 @@ public class ListarExamenesUseCase {
         .metodo(examen.getMetodo())
         .tipoResultado(examen.getTipoResultado())
         .unidadMedida(examen.getUnidadMedida())
+        .valoresReferencia(examen.getValoresReferencia())
         .precio(examen.getPrecio())
         .activo(examen.isActivo())
         .build();

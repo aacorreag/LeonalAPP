@@ -34,4 +34,7 @@ public class OrdenDetalleEntity {
 
   @Column(name = "estado")
   private String estado;
+
+  @OneToOne(mappedBy = "ordenDetalle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private ResultadoEntity resultado;
 }

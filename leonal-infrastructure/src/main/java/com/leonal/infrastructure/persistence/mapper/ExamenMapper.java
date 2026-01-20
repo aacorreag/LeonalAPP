@@ -17,6 +17,7 @@ public class ExamenMapper {
         .metodo(entity.getMetodo())
         .tipoResultado(entity.getTipoResultado())
         .unidadMedida(entity.getUnidadMedida())
+        .valoresReferencia(entity.getValoresReferencia())
         .precio(entity.getPrecio())
         .activo(entity.isActivo())
         .build();
@@ -32,6 +33,7 @@ public class ExamenMapper {
         .metodo(domain.getMetodo())
         .tipoResultado(domain.getTipoResultado())
         .unidadMedida(domain.getUnidadMedida())
+        .valoresReferencia(domain.getValoresReferencia())
         .precio(domain.getPrecio())
         .activo(domain.isActivo())
         .build();

@@ -19,6 +19,7 @@ public class CreateExamenRequest {
   private String metodo;
   private String tipoResultado;
   private String unidadMedida;
+  private String valoresReferencia;
   private BigDecimal precio;
   private boolean activo;
 }

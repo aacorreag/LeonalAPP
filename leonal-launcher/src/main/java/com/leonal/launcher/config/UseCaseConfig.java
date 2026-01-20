@@ -11,12 +11,16 @@ import com.leonal.application.usecase.user.ListarUsuariosUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
+import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
+import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
+import com.leonal.application.usecase.resultado.GenerarReporteResultadosUseCase;
 import com.leonal.domain.port.output.PacienteRepositoryPort;
 import com.leonal.domain.port.output.UsuarioRepositoryPort;
 import com.leonal.domain.port.output.ReportRepositoryPort;
 import com.leonal.domain.port.output.RolRepositoryPort;
 import com.leonal.domain.port.output.ExamenRepositoryPort;
 import com.leonal.domain.port.output.OrdenRepositoryPort;
+import com.leonal.domain.port.output.ResultadoRepositoryPort;
 import com.leonal.domain.port.output.PasswordEncoderPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,5 +92,26 @@ public class UseCaseConfig {
       OrdenRepositoryPort ordenRepository,
       ReportRepositoryPort reportRepository) {
     return new GenerarComprobanteOrdenUseCase(ordenRepository, reportRepository);
+  }
+
+  // Resultado Use Cases
+
+  @Bean
+  public IngresarResultadosUseCase ingresarResultadosUseCase(
+      ResultadoRepositoryPort resultadoRepository,
+      OrdenRepositoryPort ordenRepository) {
+    return new IngresarResultadosUseCase(resultadoRepository, ordenRepository);
+  }
+
+  @Bean
+  public ValidarOrdenUseCase validarOrdenUseCase(OrdenRepositoryPort ordenRepository) {
+    return new ValidarOrdenUseCase(ordenRepository);
+  }
+
+  @Bean
+  public GenerarReporteResultadosUseCase generarReporteResultadosUseCase(
+      OrdenRepositoryPort ordenRepository,
+      ReportRepositoryPort reportRepository) {
+    return new GenerarReporteResultadosUseCase(reportRepository, ordenRepository);
   }
 }

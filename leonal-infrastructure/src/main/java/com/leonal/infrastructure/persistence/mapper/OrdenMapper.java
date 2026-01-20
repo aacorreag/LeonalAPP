@@ -19,6 +19,7 @@ public class OrdenMapper {
 
   private final PacienteMapper pacienteMapper;
   private final ExamenMapper examenMapper;
+  private final ResultadoMapper resultadoMapper;
 
   public Orden toDomain(OrdenEntity entity) {
     if (entity == null)
@@ -75,6 +76,7 @@ public class OrdenMapper {
         .examen(examenMapper.toDomain(entity.getExamen()))
         .precioCobrado(entity.getPrecioCobrado())
         .estado(entity.getEstado())
+        .resultado(resultadoMapper.toDomain(entity.getResultado()))
         .build();
   }
 

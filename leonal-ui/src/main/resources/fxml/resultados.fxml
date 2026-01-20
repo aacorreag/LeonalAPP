@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox spacing="20" styleClass="content-padding" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.ResultadosController">
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <children>
+                <VBox>
+                    <children>
+                        <Label styleClass="header-title" text="Registro de Resultados" />
+                        <Label styleClass="header-subtitle" text="Gestión y validación técnica de exámenes de laboratorio." />
+                    </children>
+                </VBox>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button onAction="#actualizarLista" styleClass="button-secondary" text="🔄 Actualizar" />
+            </children>
+        </HBox>
+
+        <!-- Filtros y Tabla -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="card-panel">
+            <children>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Filtrar por Paciente/Orden:" />
+                    <TextField fx:id="txtFiltro" prefWidth="300" promptText="Buscar..." />
+                </HBox>
+
+                <TableView fx:id="tblOrdenes" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colNumero" prefWidth="100" text="N° Orden" />
+                        <TableColumn fx:id="colPaciente" prefWidth="250" text="Paciente" />
+                        <TableColumn fx:id="colFecha" prefWidth="150" text="Fecha Rec." />
+                        <TableColumn fx:id="colEstado" prefWidth="120" text="Estado" />
+                        <TableColumn fx:id="colAcciones" prefWidth="150" text="Acciones" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</VBox>

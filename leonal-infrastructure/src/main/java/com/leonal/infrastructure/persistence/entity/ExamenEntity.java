@@ -41,6 +41,9 @@ public class ExamenEntity {
   @Column(name = "unidad_medida")
   private String unidadMedida;
 
+  @Column(name = "valores_referencia")
+  private String valoresReferencia;
+
   @Column(nullable = false)
   private BigDecimal precio;
 

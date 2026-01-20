@@ -51,6 +51,8 @@ public class ExamenesController {
   @FXML
   private TextField txtUnidad;
   @FXML
+  private TextField txtValoresReferencia;
+  @FXML
   private CheckBox chkActivo;
   @FXML
   private Button btnNuevo;
@@ -143,6 +145,7 @@ public class ExamenesController {
     txtPrecio.setText(dto.getPrecio() != null ? dto.getPrecio().toString() : "0");
     cmbTipoResultado.setValue(dto.getTipoResultado());
     txtUnidad.setText(dto.getUnidadMedida());
+    txtValoresReferencia.setText(dto.getValoresReferencia() != null ? dto.getValoresReferencia() : "");
     chkActivo.setSelected(dto.isActivo());
 
     updateUiState(true);
@@ -174,6 +177,7 @@ public class ExamenesController {
           .metodo(txtMetodo.getText())
           .tipoResultado(cmbTipoResultado.getValue())
           .unidadMedida(txtUnidad.getText())
+          .valoresReferencia(txtValoresReferencia.getText())
           .precio(precio)
           .activo(chkActivo.isSelected())
           .build();
@@ -215,6 +219,7 @@ public class ExamenesController {
     txtPrecio.setText("0");
     cmbTipoResultado.setValue("NUMERICO");
     txtUnidad.clear();
+    txtValoresReferencia.clear();
     chkActivo.setSelected(true);
     lblFormTitle.setText("Nuevo Examen");
   }

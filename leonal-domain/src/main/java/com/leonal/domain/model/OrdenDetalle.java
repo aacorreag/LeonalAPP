@@ -18,4 +18,5 @@ public class OrdenDetalle {
     private Examen examen;
     private BigDecimal precioCobrado;
     private String estado;
+    private Resultado resultado;
 }
