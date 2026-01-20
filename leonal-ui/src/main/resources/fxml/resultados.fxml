@@ -35,7 +35,7 @@
                         <TableColumn fx:id="colPaciente" prefWidth="250" text="Paciente" />
                         <TableColumn fx:id="colFecha" prefWidth="150" text="Fecha Rec." />
                         <TableColumn fx:id="colEstado" prefWidth="120" text="Estado" />
-                        <TableColumn fx:id="colAcciones" prefWidth="150" text="Acciones" />
+                        <TableColumn fx:id="colAcciones" prefWidth="350" text="Acciones" />
                     </columns>
                 </TableView>
             </children>

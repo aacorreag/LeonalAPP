@@ -30,19 +30,20 @@ public class MainLayoutController {
   @FXML
   private VBox sideMenu;
   @FXML
-  private Button btnUsuarios; // Admin only
+  private Button btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios;
   @FXML
   private Label lblAdminSection; // Label header for admin
 
   public void initialize() {
     setupUserHeader();
     setupMenu();
-    loadHome();
+    goHome(); // Updated to use the method with highlight
   }
 
   @EventListener
   public void onNavigationEvent(NavigationEvent event) {
     loadCenterView(event.getFxmlPath());
+    updateActiveLinkByPath(event.getFxmlPath());
   }
 
   private void setupUserHeader() {
@@ -69,10 +70,6 @@ public class MainLayoutController {
     }
   }
 
-  private void loadHome() {
-    loadCenterView("/fxml/dashboard.fxml");
-  }
-
   private void loadCenterView(String fxmlPath) {
     Parent view = viewLoader.loadView(fxmlPath);
     if (view != null) {
@@ -80,36 +77,69 @@ public class MainLayoutController {
     }
   }
 
+  private void updateActiveLink(Button activeBtn) {
+    Button[] allButtons = { btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios };
+    for (Button btn : allButtons) {
+      if (btn != null) {
+        btn.getStyleClass().remove("menu-button-active");
+      }
+    }
+    if (activeBtn != null) {
+      activeBtn.getStyleClass().add("menu-button-active");
+    }
+  }
+
+  private void updateActiveLinkByPath(String fxmlPath) {
+    if (fxmlPath.contains("dashboard"))
+      updateActiveLink(btnInicio);
+    else if (fxmlPath.contains("pacientes"))
+      updateActiveLink(btnPacientes);
+    else if (fxmlPath.contains("ordenes"))
+      updateActiveLink(btnOrdenes);
+    else if (fxmlPath.contains("resultados"))
+      updateActiveLink(btnResultados);
+    else if (fxmlPath.contains("examenes"))
+      updateActiveLink(btnCatalogo);
+    else if (fxmlPath.contains("usuarios"))
+      updateActiveLink(btnUsuarios);
+  }
+
   // --- Menu Actions ---
 
   @FXML
   public void goHome() {
     loadCenterView("/fxml/dashboard.fxml");
+    updateActiveLink(btnInicio);
   }
 
   @FXML
   public void goPacientes() {
     loadCenterView("/fxml/pacientes.fxml");
+    updateActiveLink(btnPacientes);
   }
 
   @FXML
   public void goExamenes() {
     loadCenterView("/fxml/examenes.fxml");
+    updateActiveLink(btnCatalogo);
   }
 
   @FXML
   public void goOrdenes() {
     loadCenterView("/fxml/ordenes.fxml");
+    updateActiveLink(btnOrdenes);
   }
 
   @FXML
   public void goResultados() {
     loadCenterView("/fxml/resultados.fxml");
+    updateActiveLink(btnResultados);
   }
 
   @FXML
   public void goUsuarios() {
     loadCenterView("/fxml/usuarios.fxml");
+    updateActiveLink(btnUsuarios);
   }
 
   @FXML
