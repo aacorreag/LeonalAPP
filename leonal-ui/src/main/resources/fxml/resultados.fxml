@@ -5,15 +5,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
 
-<VBox spacing="20" styleClass="content-padding" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.ResultadosController">
+<VBox spacing="25.0" stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.ResultadosController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
     <children>
         <!-- Header -->
         <HBox alignment="CENTER_LEFT" spacing="10">
             <children>
-                <VBox>
+                <VBox spacing="5.0">
                     <children>
-                        <Label styleClass="header-title" text="Registro de Resultados" />
-                        <Label styleClass="header-subtitle" text="Gestión y validación técnica de exámenes de laboratorio." />
+                        <Label styleClass="title-label" text="Registro de Resultados" />
+                        <Label styleClass="subtitle-label" text="Gestión y validación técnica de exámenes de laboratorio." />
                     </children>
                 </VBox>
                 <Pane HBox.hgrow="ALWAYS" />
@@ -22,17 +25,26 @@
         </HBox>
 
         <!-- Filtros y Tabla -->
-        <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="card-panel">
+        <VBox spacing="20" styleClass="card" VBox.vgrow="ALWAYS">
             <children>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="Filtrar por Paciente/Orden:" />
-                    <TextField fx:id="txtFiltro" prefWidth="300" promptText="Buscar..." />
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <children>
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label styleClass="form-label" text="Filtrar por Paciente/Orden:" />
+                                <TextField fx:id="txtFiltro" prefWidth="350.0" promptText="Ingrese nombre o código..." />
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" />
+                    </padding>
                 </HBox>
 
                 <TableView fx:id="tblOrdenes" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="colNumero" prefWidth="100" text="N° Orden" />
-                        <TableColumn fx:id="colPaciente" prefWidth="250" text="Paciente" />
+                        <TableColumn fx:id="colNumero" prefWidth="120" text="N° Orden" />
+                        <TableColumn fx:id="colPaciente" prefWidth="300" text="Paciente" />
                         <TableColumn fx:id="colFecha" prefWidth="150" text="Fecha Rec." />
                         <TableColumn fx:id="colEstado" prefWidth="120" text="Estado" />
                         <TableColumn fx:id="colAcciones" prefWidth="350" text="Acciones" />

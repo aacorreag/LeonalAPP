@@ -8,6 +8,7 @@ import com.leonal.infrastructure.persistence.jpa.OrdenDetalleJpaRepository;
 import com.leonal.infrastructure.persistence.mapper.ResultadoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ResultadoRepositoryAdapter implements ResultadoRepositoryPort {
 
   private final ResultadoJpaRepository repository;
@@ -23,6 +25,7 @@ public class ResultadoRepositoryAdapter implements ResultadoRepositoryPort {
   private final ResultadoMapper mapper;
 
   @Override
+  @Transactional
   public Resultado save(Resultado resultado) {
     OrdenDetalleEntity detalle = null;
     if (resultado.getOrdenDetalleId() != null) {

@@ -19,4 +19,9 @@ public class OrdenDetalleDto {
   private String examenNombre;
   private BigDecimal precioCobrado;
   private String estado;
+
+  // Datos del resultado actual (si existe)
+  private String valor;
+  private String observacionReporte;
+  private boolean esPatologico;
 }

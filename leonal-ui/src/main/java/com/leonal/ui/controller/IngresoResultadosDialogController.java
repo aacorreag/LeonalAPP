@@ -55,12 +55,15 @@ public class IngresoResultadosDialogController {
       TextField txtValor = new TextField();
       txtValor.setPromptText("Valor / Resultado");
       txtValor.setPrefWidth(200);
+      txtValor.setText(detalle.getValor() != null ? detalle.getValor() : "");
 
       TextField txtObs = new TextField();
       txtObs.setPromptText("Observaciones para el reporte");
       txtObs.setPrefWidth(300);
+      txtObs.setText(detalle.getObservacionReporte() != null ? detalle.getObservacionReporte() : "");
 
       CheckBox chkPatologico = new CheckBox("Patológico");
+      chkPatologico.setSelected(detalle.isEsPatologico());
 
       grid.add(new Label("Valor:"), 0, 0);
       grid.add(txtValor, 1, 0);

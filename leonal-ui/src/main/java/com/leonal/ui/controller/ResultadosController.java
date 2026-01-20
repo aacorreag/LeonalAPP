@@ -92,6 +92,7 @@ public class ResultadosController {
           setGraphic(null);
         } else {
           OrdenDto orden = getTableView().getItems().get(getIndex());
+          btnIngresar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
           btnValidar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
           btnImprimir.setVisible("VALIDADO".equals(orden.getEstado()) || "ENTREGADO".equals(orden.getEstado()));
           setGraphic(container);

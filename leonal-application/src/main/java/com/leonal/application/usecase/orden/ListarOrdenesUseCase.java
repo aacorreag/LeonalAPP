@@ -49,6 +49,9 @@ public class ListarOrdenesUseCase {
         .examenNombre(detalle.getExamen() != null ? detalle.getExamen().getNombre() : "")
         .precioCobrado(detalle.getPrecioCobrado())
         .estado(detalle.getEstado())
+        .valor(detalle.getResultado() != null ? detalle.getResultado().getValor() : null)
+        .observacionReporte(detalle.getResultado() != null ? detalle.getResultado().getObservacionReporte() : null)
+        .esPatologico(detalle.getResultado() != null && detalle.getResultado().isEsPatologico())
         .build();
   }
 }

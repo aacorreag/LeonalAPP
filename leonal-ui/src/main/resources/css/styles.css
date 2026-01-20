@@ -13,6 +13,14 @@
 	-fx-padding: 30;
 }
 
+.card-panel-small {
+	-fx-background-color: white;
+	-fx-background-radius: 8;
+	-fx-border-color: #e9ecef;
+	-fx-border-radius: 8;
+	-fx-padding: 15;
+}
+
 .header-bar {
 	-fx-background-color: white;
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
