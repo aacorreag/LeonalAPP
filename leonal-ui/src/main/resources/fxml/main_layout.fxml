@@ -19,7 +19,7 @@
          </padding>
          <children>
             <!-- Logo Area -->
-            <ImageView fitHeight="45.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="60.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/images/logo.png" />
                </image>
@@ -53,17 +53,27 @@
             <Insets top="20.0" />
          </padding>
          <children>
-            <Label style="-fx-padding: 0 0 10 20; -fx-text-fill: #aaa; -fx-font-weight: bold; -fx-font-size: 11px;" text="OPERACIÓN" />
+            <Label styleClass="sidebar-label" text="OPERACIÓN" />
             
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goHome" styleClass="menu-button" text="Inicio" />
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goPacientes" styleClass="menu-button" text="Pacientes" />
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goOrdenes" styleClass="menu-button" text="Órdenes" />
-            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goExamenes" styleClass="menu-button" text="Catálogo" />
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goHome" styleClass="menu-button" text="Inicio">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="🏠" /></graphic>
+            </Button>
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goPacientes" styleClass="menu-button" text="Pacientes">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="👥" /></graphic>
+            </Button>
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goOrdenes" styleClass="menu-button" text="Órdenes">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="🧪" /></graphic>
+            </Button>
+            <Button contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goExamenes" styleClass="menu-button" text="Catálogo">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="📋" /></graphic>
+            </Button>
             
             <Region prefHeight="20.0" />
             
-            <Label fx:id="lblAdminSection" style="-fx-padding: 0 0 10 20; -fx-text-fill: #aaa; -fx-font-weight: bold; -fx-font-size: 11px;" text="ADMINISTRACIÓN" />
-            <Button fx:id="btnUsuarios" contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goUsuarios" styleClass="menu-button" text="Usuarios" />
+            <Label fx:id="lblAdminSection" styleClass="sidebar-label" text="ADMINISTRACIÓN" />
+            <Button fx:id="btnUsuarios" contentDisplay="LEFT" graphicTextGap="15.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#goUsuarios" styleClass="menu-button" text="Usuarios">
+               <graphic><Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="⚙️" /></graphic>
+            </Button>
          </children>
       </VBox>
    </left>

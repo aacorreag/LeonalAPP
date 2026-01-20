@@ -5,12 +5,24 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox alignment="TOP_CENTER" spacing="40.0" stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.DashboardController">
    <padding>
       <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
    </padding>
    <children>
+      <!-- Dashboard Logo -->
+      <ImageView fitHeight="120.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/images/logo.png" />
+         </image>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </ImageView>
+      
       <VBox alignment="CENTER" spacing="10.0">
          <children>
             <Label fx:id="lblWelcome" styleClass="title-label" text="¡Hola!" />
