@@ -10,8 +10,10 @@ import com.leonal.application.usecase.user.ListarRolesUseCase;
 import com.leonal.application.usecase.user.ListarUsuariosUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.domain.port.output.PacienteRepositoryPort;
 import com.leonal.domain.port.output.UsuarioRepositoryPort;
+import com.leonal.domain.port.output.ReportRepositoryPort;
 import com.leonal.domain.port.output.RolRepositoryPort;
 import com.leonal.domain.port.output.ExamenRepositoryPort;
 import com.leonal.domain.port.output.OrdenRepositoryPort;
@@ -79,5 +81,12 @@ public class UseCaseConfig {
   @Bean
   public ListarOrdenesUseCase listarOrdenesUseCase(OrdenRepositoryPort ordenRepository) {
     return new ListarOrdenesUseCase(ordenRepository);
+  }
+
+  @Bean
+  public GenerarComprobanteOrdenUseCase generarComprobanteOrdenUseCase(
+      OrdenRepositoryPort ordenRepository,
+      ReportRepositoryPort reportRepository) {
+    return new GenerarComprobanteOrdenUseCase(ordenRepository, reportRepository);
   }
 }

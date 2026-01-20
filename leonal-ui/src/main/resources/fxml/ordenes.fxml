@@ -28,6 +28,7 @@
             <TableColumn fx:id="colEstado" text="Estado" prefWidth="100"/>
             <TableColumn fx:id="colItems" text="Exámenes" prefWidth="80"/>
             <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
+            <TableColumn fx:id="colAcciones" text="Acciones" prefWidth="100"/>
         </columns>
         <placeholder><Label text="No hay órdenes registradas"/></placeholder>
     </TableView>

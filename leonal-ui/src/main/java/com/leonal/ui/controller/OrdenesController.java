@@ -2,6 +2,7 @@ package com.leonal.ui.controller;
 
 import com.leonal.application.dto.orden.OrdenDto;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.ui.context.UserSession;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class OrdenesController {
 
   private final ListarOrdenesUseCase listarOrdenesUseCase;
+  private final GenerarComprobanteOrdenUseCase generarComprobanteOrdenUseCase;
   private final org.springframework.context.ApplicationContext applicationContext;
 
   // Main view components
@@ -45,6 +47,8 @@ public class OrdenesController {
   private TableColumn<OrdenDto, Integer> colItems;
   @FXML
   private TableColumn<OrdenDto, BigDecimal> colTotal;
+  @FXML
+  private TableColumn<OrdenDto, Void> colAcciones;
   @FXML
   private Button btnNuevaOrden;
 
@@ -82,6 +86,52 @@ public class OrdenesController {
     });
 
     tablaOrdenes.setItems(ordenesList);
+
+    setupAccionesColumn();
+  }
+
+  private void setupAccionesColumn() {
+    colAcciones.setCellFactory(param -> new TableCell<>() {
+      private final Button btnPrint = new Button("🖨️");
+
+      {
+        btnPrint.getStyleClass().add("button-icon");
+        btnPrint.setOnAction(event -> {
+          OrdenDto orden = getTableView().getItems().get(getIndex());
+          imprimirComprobante(orden);
+        });
+      }
+
+      @Override
+      protected void updateItem(Void item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty) {
+          setGraphic(null);
+        } else {
+          setGraphic(btnPrint);
+        }
+      }
+    });
+  }
+
+  private void imprimirComprobante(OrdenDto ordenDto) {
+    try {
+      byte[] pdfBytes = generarComprobanteOrdenUseCase.ejecutar(ordenDto.getId());
+
+      javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+      fileChooser.setTitle("Guardar Comprobante de Orden");
+      fileChooser.setInitialFileName("Orden_" + ordenDto.getCodigoOrden() + ".pdf");
+      fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+      java.io.File file = fileChooser.showSaveDialog(tablaOrdenes.getScene().getWindow());
+      if (file != null) {
+        java.nio.file.Files.write(file.toPath(), pdfBytes);
+        showAlert("Éxito", "Comprobante guardado correctamente en: " + file.getAbsolutePath());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      showAlert("Error", "No se pudo generar el comprobante: " + e.getMessage());
+    }
   }
 
   private void loadOrdenes() {

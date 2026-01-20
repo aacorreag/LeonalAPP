@@ -10,6 +10,7 @@ import com.leonal.application.usecase.examen.ListarExamenesUseCase;
 import com.leonal.application.usecase.examen.GuardarExamenUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.ui.controller.PacienteController;
 import com.leonal.ui.controller.LoginController;
 import com.leonal.ui.controller.MainLayoutController;
@@ -98,8 +99,9 @@ public class UiConfig {
   @Scope("prototype")
   public OrdenesController ordenesController(
       ListarOrdenesUseCase listarOrdenes,
+      GenerarComprobanteOrdenUseCase generarComprobanteOrden,
       ApplicationContext applicationContext) {
-    return new OrdenesController(listarOrdenes, applicationContext);
+    return new OrdenesController(listarOrdenes, generarComprobanteOrden, applicationContext);
   }
 
   @Bean

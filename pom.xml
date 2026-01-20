@@ -33,7 +33,15 @@
         <junit.version>5.10.0</junit.version>
         <mockito.version>5.7.0</mockito.version>
         <pdfbox.version>2.0.30</pdfbox.version>
+        <jasper.version>6.20.0</jasper.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jaspersoft-third-party</id>
+            <url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -73,6 +81,18 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            
+            <!-- JasperReports -->
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${jasper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-fonts</artifactId>
+                <version>${jasper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

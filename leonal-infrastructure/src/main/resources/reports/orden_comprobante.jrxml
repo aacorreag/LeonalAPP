@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orden_comprobante" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567890">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="CODIGO_ORDEN" class="java.lang.String"/>
+	<parameter name="PACIENTE_NOMBRE" class="java.lang.String"/>
+	<parameter name="PACIENTE_DOC" class="java.lang.String"/>
+	<parameter name="FECHA" class="java.lang.String"/>
+	<parameter name="TOTAL" class="java.math.BigDecimal"/>
+	<parameter name="LOGO_PATH" class="java.io.InputStream"/>
+	<field name="examen.nombre" class="java.lang.String"/>
+	<field name="precioCobrado" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="150" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Left" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="0" y="0" width="250" height="80" uuid="7890abcd-ef12-3456-7890-abcdef123456"/>
+				<imageExpression><![CDATA[$P{LOGO_PATH}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="260" y="20" width="295" height="40" forecolor="#4A90E2" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567891"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE DE ADMISIÓN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="90" width="555" height="1" forecolor="#D1D1D1" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567892"/>
+			</line>
+			<frame>
+				<reportElement x="0" y="100" width="555" height="45" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567893"/>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567894"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orden:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="80" y="0" width="150" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567895"/>
+					<textFieldExpression><![CDATA[$P{CODIGO_ORDEN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="15" width="80" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567896"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Paciente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="80" y="15" width="250" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567897"/>
+					<textFieldExpression><![CDATA[$P{PACIENTE_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="340" y="15" width="60" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567898"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ID Doc:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="400" y="15" width="150" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567899"/>
+					<textFieldExpression><![CDATA[$P{PACIENTE_DOC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="30" width="80" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567900"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="80" y="30" width="250" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567901"/>
+					<textFieldExpression><![CDATA[$P{FECHA}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#F0F0F0" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567902">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="0" width="370" height="20" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567903"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXAMEN / SERVICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="0" width="100" height="20" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567904"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO (COP)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement x="10" y="0" width="370" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567905"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{examen.nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0">
+				<reportElement x="445" y="0" width="100" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567906"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{precioCobrado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="17" width="555" height="1" forecolor="#F0F0F0" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567907"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="80" splitType="Stretch">
+			<line>
+				<reportElement x="340" y="10" width="215" height="1" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567908"/>
+			</line>
+			<staticText>
+				<reportElement x="340" y="15" width="100" height="20" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567909"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0">
+				<reportElement x="445" y="15" width="100" height="20" forecolor="#4A90E2" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567910"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="555" height="30" forecolor="#999999" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567911"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Este documento es un comprobante de admisión y no es válido como reporte de resultados.
+Conserve este recibo para reclamar sus resultados una vez estén listos.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
