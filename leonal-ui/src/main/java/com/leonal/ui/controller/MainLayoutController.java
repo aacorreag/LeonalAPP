@@ -30,7 +30,7 @@ public class MainLayoutController {
   @FXML
   private VBox sideMenu;
   @FXML
-  private Button btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios;
+  private Button btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios, btnFacturas, btnPagos, btnCaja;
   @FXML
   private Label lblAdminSection; // Label header for admin
 
@@ -78,7 +78,7 @@ public class MainLayoutController {
   }
 
   private void updateActiveLink(Button activeBtn) {
-    Button[] allButtons = { btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios };
+    Button[] allButtons = { btnInicio, btnPacientes, btnOrdenes, btnResultados, btnCatalogo, btnUsuarios, btnFacturas, btnPagos, btnCaja };
     for (Button btn : allButtons) {
       if (btn != null) {
         btn.getStyleClass().remove("menu-button-active");
@@ -102,6 +102,12 @@ public class MainLayoutController {
       updateActiveLink(btnCatalogo);
     else if (fxmlPath.contains("usuarios"))
       updateActiveLink(btnUsuarios);
+    else if (fxmlPath.contains("facturas"))
+      updateActiveLink(btnFacturas);
+    else if (fxmlPath.contains("pagos"))
+      updateActiveLink(btnPagos);
+    else if (fxmlPath.contains("caja"))
+      updateActiveLink(btnCaja);
   }
 
   // --- Menu Actions ---
@@ -140,6 +146,24 @@ public class MainLayoutController {
   public void goUsuarios() {
     loadCenterView("/fxml/usuarios.fxml");
     updateActiveLink(btnUsuarios);
+  }
+
+  @FXML
+  public void goFacturas() {
+    loadCenterView("/fxml/facturas.fxml");
+    updateActiveLink(btnFacturas);
+  }
+
+  @FXML
+  public void goPagos() {
+    loadCenterView("/fxml/pagos.fxml");
+    updateActiveLink(btnPagos);
+  }
+
+  @FXML
+  public void goCaja() {
+    loadCenterView("/fxml/caja.fxml");
+    updateActiveLink(btnCaja);
   }
 
   @FXML

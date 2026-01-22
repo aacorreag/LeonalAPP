@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox alignment="TOP_CENTER" spacing="40.0" stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.DashboardController">
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+   <children>
+      <!-- Dashboard Logo -->
+      <ImageView fitHeight="120.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/images/logo.png" />
+         </image>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </ImageView>
+      
+      <VBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="lblWelcome" styleClass="title-label" text="¡Hola!" />
+            <Label styleClass="subtitle-label" text="¿Qué desea hacer hoy?" />
+         </children>
+      </VBox>
+      
+      <FlowPane alignment="CENTER" hgap="30.0" vgap="30.0">
+         <children>
+            <!-- Card Pacientes -->
+            <Button mnemonicParsing="false" onAction="#goPacientes" prefHeight="160.0" prefWidth="250.0" styleClass="action-card">
+               <graphic>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label style="-fx-font-size: 40px;" text="👥" /> <!-- Emoji as icon for now -->
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333;" text="Pacientes" />
+                        <Label style="-fx-text-fill: #888;" text="Registrar y buscar pacientes" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            
+            <!-- Card Ordenes -->
+            <Button mnemonicParsing="false" onAction="#goOrdenes" prefHeight="160.0" prefWidth="250.0" styleClass="action-card">
+               <graphic>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label style="-fx-font-size: 40px;" text="🧪" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333;" text="Órdenes" />
+                        <Label style="-fx-text-fill: #888;" text="Nueva orden de laboratorio" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            
+            <!-- Card Catalogo -->
+            <Button mnemonicParsing="false" onAction="#goExamenes" prefHeight="160.0" prefWidth="250.0" styleClass="action-card">
+               <graphic>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label style="-fx-font-size: 40px;" text="📋" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333;" text="Catálogo Exámenes" />
+                        <Label style="-fx-text-fill: #888;" text="Gestionar pruebas y precios" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+         </children>
+      </FlowPane>
+   </children>
+</VBox>

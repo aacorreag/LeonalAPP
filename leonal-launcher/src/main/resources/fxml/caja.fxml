@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="25.0" stylesheets="@/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.CajaController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <VBox spacing="5.0">
+        <children>
+            <Label styleClass="title-label" text="Gestión de Caja" />
+            <Label styleClass="subtitle-label" text="Abrir/cerrar caja diaria y administrar ingresos/egresos." />
+        </children>
+    </VBox>
+
+    <VBox styleClass="card" spacing="10.0">
+        <children>
+            <HBox spacing="15.0">
+                <Label text="Estado Caja:" />
+                <Label fx:id="lblEstadoCaja" text="CERRADA" style="-fx-text-fill: red; -fx-font-weight: bold" />
+            </HBox>
+            
+            <GridPane hgap="15.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                </columnConstraints>
+                
+                <Label text="Monto Inicial:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="txtMontoInicial" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                
+                <Label text="Hora Apertura:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <Label fx:id="lblHoraApertura" text="-" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                
+                <Button fx:id="btnAbrirCaja" text="Abrir Caja" onAction="#handleAbrirCaja" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            </GridPane>
+        </children>
+    </VBox>
+
+    <VBox styleClass="card" spacing="10.0">
+        <children>
+            <Label text="Cierre de Caja" style="-fx-font-size: 14; -fx-font-weight: bold" />
+            
+            <GridPane hgap="15.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                    <ColumnConstraints percentWidth="25" />
+                </columnConstraints>
+                
+                <Label text="Total Ingresos:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="lblTotalIngresos" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-weight: bold" />
+                
+                <Label text="Total Egresos:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <Label fx:id="lblTotalEgresos" text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="0" style="-fx-font-weight: bold" />
+                
+                <Label text="Monto Final:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="txtMontoFinal" GridPane.columnIndex="1" GridPane.rowIndex="1" onKeyReleased="#handleCalcularDiferencia" />
+                
+                <Label text="Diferencia:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="txtDiferencia" GridPane.columnIndex="3" GridPane.rowIndex="1" editable="false" />
+                
+                <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextArea fx:id="txtaObservacionesCierre" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+            </GridPane>
+            
+            <Button fx:id="btnCerrarCaja" text="Cerrar Caja" onAction="#handleCerrarCaja" />
+        </children>
+    </VBox>
+
+    <VBox styleClass="card" spacing="10.0" VBox.vgrow="ALWAYS">
+        <children>
+            <Label text="Historial de Cajas" style="-fx-font-size: 14; -fx-font-weight: bold" />
+            
+            <TableView fx:id="tblCajas" prefHeight="300.0" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colCajero" text="Cajero" prefWidth="150" />
+                    <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120" />
+                    <TableColumn fx:id="colHoraApertura" text="Hora Apertura" prefWidth="150" />
+                    <TableColumn fx:id="colHoraCierre" text="Hora Cierre" prefWidth="150" />
+                    <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+                    <TableColumn fx:id="colMontoInicial" text="Monto Inicial" prefWidth="120" />
+                    <TableColumn fx:id="colMontoFinal" text="Monto Final" prefWidth="120" />
+                </columns>
+            </TableView>
+        </children>
+    </VBox>
+</VBox>

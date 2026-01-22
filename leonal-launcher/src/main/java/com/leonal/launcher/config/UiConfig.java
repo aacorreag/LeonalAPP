@@ -14,6 +14,13 @@ import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
 import com.leonal.application.usecase.resultado.GenerarReporteResultadosUseCase;
+import com.leonal.application.usecase.factura.CrearFacturaUseCase;
+import com.leonal.application.usecase.factura.ListarFacturasUseCase;
+import com.leonal.application.usecase.pago.RegistrarPagoUseCase;
+import com.leonal.application.usecase.pago.ListarPagosUseCase;
+import com.leonal.application.usecase.caja.AbrirCajaUseCase;
+import com.leonal.application.usecase.caja.CerrarCajaUseCase;
+import com.leonal.application.usecase.caja.ListarCajasUseCase;
 import com.leonal.ui.controller.*;
 import com.leonal.ui.context.UserSession;
 import com.leonal.ui.navigation.ViewNavigator;
@@ -120,5 +127,30 @@ public class UiConfig {
       IngresarResultadosUseCase ingresarResultados,
       UserSession userSession) {
     return new IngresoResultadosDialogController(ingresarResultados, userSession);
+  }
+
+  // Facturación Controllers
+
+  @Bean
+  public FacturacionController facturacionController(
+      CrearFacturaUseCase crearFactura,
+      ListarFacturasUseCase listarFacturas) {
+    return new FacturacionController(crearFactura, listarFacturas);
+  }
+
+  @Bean
+  public PagoController pagoController(
+      RegistrarPagoUseCase registrarPago,
+      ListarPagosUseCase listarPagos,
+      ListarFacturasUseCase listarFacturas) {
+    return new PagoController(registrarPago, listarPagos, listarFacturas);
+  }
+
+  @Bean
+  public CajaController cajaController(
+      AbrirCajaUseCase abrirCaja,
+      CerrarCajaUseCase cerrarCaja,
+      ListarCajasUseCase listarCajas) {
+    return new CajaController(abrirCaja, cerrarCaja, listarCajas);
   }
 }

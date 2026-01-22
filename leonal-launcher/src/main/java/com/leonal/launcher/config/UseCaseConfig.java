@@ -14,6 +14,13 @@ import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
 import com.leonal.application.usecase.resultado.GenerarReporteResultadosUseCase;
+import com.leonal.application.usecase.factura.CrearFacturaUseCase;
+import com.leonal.application.usecase.factura.ListarFacturasUseCase;
+import com.leonal.application.usecase.pago.RegistrarPagoUseCase;
+import com.leonal.application.usecase.pago.ListarPagosUseCase;
+import com.leonal.application.usecase.caja.AbrirCajaUseCase;
+import com.leonal.application.usecase.caja.CerrarCajaUseCase;
+import com.leonal.application.usecase.caja.ListarCajasUseCase;
 import com.leonal.domain.port.output.PacienteRepositoryPort;
 import com.leonal.domain.port.output.UsuarioRepositoryPort;
 import com.leonal.domain.port.output.ReportRepositoryPort;
@@ -22,6 +29,9 @@ import com.leonal.domain.port.output.ExamenRepositoryPort;
 import com.leonal.domain.port.output.OrdenRepositoryPort;
 import com.leonal.domain.port.output.ResultadoRepositoryPort;
 import com.leonal.domain.port.output.PasswordEncoderPort;
+import com.leonal.domain.port.output.FacturaRepositoryPort;
+import com.leonal.domain.port.output.PagoRepositoryPort;
+import com.leonal.domain.port.output.CajaRepositoryPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -113,5 +123,44 @@ public class UseCaseConfig {
       OrdenRepositoryPort ordenRepository,
       ReportRepositoryPort reportRepository) {
     return new GenerarReporteResultadosUseCase(reportRepository, ordenRepository);
+  }
+
+  // Facturación Use Cases
+
+  @Bean
+  public CrearFacturaUseCase crearFacturaUseCase(FacturaRepositoryPort facturaRepository) {
+    return new CrearFacturaUseCase(facturaRepository);
+  }
+
+  @Bean
+  public ListarFacturasUseCase listarFacturasUseCase(FacturaRepositoryPort facturaRepository) {
+    return new ListarFacturasUseCase(facturaRepository);
+  }
+
+  @Bean
+  public RegistrarPagoUseCase registrarPagoUseCase(
+      PagoRepositoryPort pagoRepository,
+      FacturaRepositoryPort facturaRepository) {
+    return new RegistrarPagoUseCase(pagoRepository, facturaRepository);
+  }
+
+  @Bean
+  public ListarPagosUseCase listarPagosUseCase(PagoRepositoryPort pagoRepository) {
+    return new ListarPagosUseCase(pagoRepository);
+  }
+
+  @Bean
+  public AbrirCajaUseCase abrirCajaUseCase(CajaRepositoryPort cajaRepository) {
+    return new AbrirCajaUseCase(cajaRepository);
+  }
+
+  @Bean
+  public CerrarCajaUseCase cerrarCajaUseCase(CajaRepositoryPort cajaRepository) {
+    return new CerrarCajaUseCase(cajaRepository);
+  }
+
+  @Bean
+  public ListarCajasUseCase listarCajasUseCase(CajaRepositoryPort cajaRepository) {
+    return new ListarCajasUseCase(cajaRepository);
   }
 }
