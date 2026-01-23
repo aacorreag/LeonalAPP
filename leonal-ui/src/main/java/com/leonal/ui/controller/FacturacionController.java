@@ -2,8 +2,14 @@ package com.leonal.ui.controller;
 
 import com.leonal.application.dto.factura.CreateFacturaRequest;
 import com.leonal.application.dto.factura.FacturaDto;
+import com.leonal.application.dto.orden.OrdenDto;
 import com.leonal.application.usecase.factura.CrearFacturaUseCase;
 import com.leonal.application.usecase.factura.ListarFacturasUseCase;
+import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.orden.ObtenerOrdenPorIdUseCase;
+import com.leonal.application.usecase.caja.ActualizarTotalCajaUseCase;
+import com.leonal.application.usecase.caja.ListarCajasUseCase;
+import com.leonal.ui.context.UserSession;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,8 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -21,17 +28,29 @@ import java.util.UUID;
 public class FacturacionController {
     private final CrearFacturaUseCase crearFacturaUseCase;
     private final ListarFacturasUseCase listarFacturasUseCase;
+    private final ListarOrdenesUseCase listarOrdenesUseCase;
+    private final ObtenerOrdenPorIdUseCase obtenerOrdenPorIdUseCase;
+    private final ActualizarTotalCajaUseCase actualizarTotalCajaUseCase;
+    private final ListarCajasUseCase listarCajasUseCase;
+    private final UserSession userSession;
 
+    // Sección Selección de Orden
     @FXML
-    private TextField txtNumeroOrden;
+    private ComboBox<String> cbOrdenes;
     @FXML
-    private TextField txtPaciente;
+    private Button btnCargarOrden;
+
+    // Sección Datos de Factura
     @FXML
-    private TextField txtDocumento;
+    private Label lblNumeroOrden;
+    @FXML
+    private Label lblPaciente;
+    @FXML
+    private Label lblDocumento;
+    @FXML
+    private Label lblSubtotal;
     @FXML
     private TextArea txtaObservaciones;
-    @FXML
-    private TextField txtSubtotal;
     @FXML
     private TextField txtDescuento;
     @FXML
@@ -61,13 +80,14 @@ public class FacturacionController {
     @FXML
     private Button btnBuscar;
 
-    private UUID ordenIdActual;
-    private UUID pacienteIdActual;
+    private OrdenDto ordenActual;
+    private Map<String, UUID> mapaOrdenes = new HashMap<>();
 
     @FXML
     public void initialize() {
         configurarTabla();
         configurarComboBox();
+        cargarOrdenes();
         cargarFacturas();
     }
 
@@ -81,29 +101,94 @@ public class FacturacionController {
 
     private void configurarComboBox() {
         cbEstado.setItems(FXCollections.observableArrayList(
-                "BORRADOR", "EMITIDA", "PAGADA", "ANULADA"
+                "EMITIDA", "PAGADA", "ANULADA"
         ));
+    }
+
+    @FXML
+    public void handleCargarOrden() {
+        String selectedOrden = cbOrdenes.getValue();
+        if (selectedOrden == null || selectedOrden.isEmpty()) {
+            mostrarError("Seleccione una orden");
+            return;
+        }
+
+        try {
+            UUID ordenId = mapaOrdenes.get(selectedOrden);
+            ordenActual = obtenerOrdenPorIdUseCase.execute(ordenId);
+            mostrarDatosOrden();
+        } catch (Exception e) {
+            mostrarError("Error al cargar orden: " + e.getMessage());
+        }
+    }
+
+    private void mostrarDatosOrden() {
+        lblNumeroOrden.setText(ordenActual.getCodigoOrden());
+        lblPaciente.setText(ordenActual.getPacienteNombre());
+        lblDocumento.setText(ordenActual.getPacienteDocumento());
+        lblSubtotal.setText(ordenActual.getTotal().toPlainString());
+        txtDescuento.clear();
+        txtImpuesto.clear();
+        handleCalcularTotal();
+    }
+
+    private void cargarOrdenes() {
+        try {
+            List<OrdenDto> ordenes = listarOrdenesUseCase.ejecutar();
+            mapaOrdenes.clear();
+            
+            List<String> opcionesOrdenes = ordenes.stream()
+                .map(o -> {
+                    String opcion = String.format("%s - %s", o.getCodigoOrden(), o.getPacienteNombre());
+                    mapaOrdenes.put(opcion, o.getId());
+                    return opcion;
+                })
+                .toList();
+
+            cbOrdenes.setItems(FXCollections.observableArrayList(opcionesOrdenes));
+        } catch (Exception e) {
+            mostrarError("Error al cargar órdenes: " + e.getMessage());
+        }
     }
 
     @FXML
     public void handleGuardar() {
         try {
-            BigDecimal subtotal = new BigDecimal(txtSubtotal.getText());
+            if (ordenActual == null) {
+                mostrarError("Debe cargar una orden primero");
+                return;
+            }
+
+            BigDecimal subtotal = ordenActual.getTotal();
             BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtDescuento.getText());
             BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtImpuesto.getText());
 
             CreateFacturaRequest request = CreateFacturaRequest.builder()
-                    .ordenId(ordenIdActual)
+                    .ordenId(ordenActual.getId())
                     .subtotal(subtotal)
                     .descuento(descuento)
                     .impuesto(impuesto)
                     .observaciones(txtaObservaciones.getText())
                     .build();
 
-            FacturaDto factura = crearFacturaUseCase.execute(request, pacienteIdActual, txtPaciente.getText(), txtDocumento.getText(), UUID.randomUUID());
+            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId() : UUID.randomUUID();
+            FacturaDto factura = crearFacturaUseCase.execute(request, ordenActual.getPacienteId(), 
+                ordenActual.getPacienteNombre(), ordenActual.getPacienteDocumento(), usuarioId);
+            
+            // Actualizar totales de caja abierta si existe
+            try {
+                var cajasAbiertas = listarCajasUseCase.executeByEstado("ABIERTA");
+                if (!cajasAbiertas.isEmpty()) {
+                    actualizarTotalCajaUseCase.execute(cajasAbiertas.get(0).getId(), factura.getTotal());
+                }
+            } catch (Exception e) {
+                // Si falla la actualización de caja, solo notificar pero no bloquear la creación de factura
+            }
+            
             mostrarExito("Factura creada: " + factura.getNumero());
             limpiarFormulario();
             cargarFacturas();
+            cargarOrdenes();
         } catch (Exception e) {
             mostrarError("Error al crear factura: " + e.getMessage());
         }
@@ -131,29 +216,29 @@ public class FacturacionController {
     }
 
     private void limpiarFormulario() {
-        txtNumeroOrden.clear();
-        txtPaciente.clear();
-        txtDocumento.clear();
-        txtSubtotal.clear();
+        ordenActual = null;
+        lblNumeroOrden.setText("-");
+        lblPaciente.setText("-");
+        lblDocumento.setText("-");
+        lblSubtotal.setText("0.00");
         txtDescuento.clear();
         txtImpuesto.clear();
         txtaObservaciones.clear();
         lblTotal.setText("0.00");
-        ordenIdActual = null;
-        pacienteIdActual = null;
+        cbOrdenes.setValue(null);
     }
 
     @FXML
     public void handleCalcularTotal() {
         try {
-            BigDecimal subtotal = txtSubtotal.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtSubtotal.getText());
+            BigDecimal subtotal = new BigDecimal(lblSubtotal.getText());
             BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtDescuento.getText());
             BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtImpuesto.getText());
 
             BigDecimal total = subtotal.subtract(descuento).add(impuesto);
             lblTotal.setText(total.toPlainString());
         } catch (Exception e) {
-            lblTotal.setText("Err");
+            lblTotal.setText("0.00");
         }
     }
 

@@ -10,6 +10,7 @@ import com.leonal.application.usecase.examen.ListarExamenesUseCase;
 import com.leonal.application.usecase.examen.GuardarExamenUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.orden.ObtenerOrdenPorIdUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
@@ -21,6 +22,7 @@ import com.leonal.application.usecase.pago.ListarPagosUseCase;
 import com.leonal.application.usecase.caja.AbrirCajaUseCase;
 import com.leonal.application.usecase.caja.CerrarCajaUseCase;
 import com.leonal.application.usecase.caja.ListarCajasUseCase;
+import com.leonal.application.usecase.caja.ActualizarTotalCajaUseCase;
 import com.leonal.ui.controller.*;
 import com.leonal.ui.context.UserSession;
 import com.leonal.ui.navigation.ViewNavigator;
@@ -134,23 +136,32 @@ public class UiConfig {
   @Bean
   public FacturacionController facturacionController(
       CrearFacturaUseCase crearFactura,
-      ListarFacturasUseCase listarFacturas) {
-    return new FacturacionController(crearFactura, listarFacturas);
+      ListarFacturasUseCase listarFacturas,
+      ListarOrdenesUseCase listarOrdenes,
+      ObtenerOrdenPorIdUseCase obtenerOrden,
+      ActualizarTotalCajaUseCase actualizarTotalCaja,
+      ListarCajasUseCase listarCajas,
+      UserSession userSession) {
+    return new FacturacionController(crearFactura, listarFacturas, listarOrdenes, obtenerOrden, actualizarTotalCaja, listarCajas, userSession);
   }
 
   @Bean
   public PagoController pagoController(
       RegistrarPagoUseCase registrarPago,
       ListarPagosUseCase listarPagos,
-      ListarFacturasUseCase listarFacturas) {
-    return new PagoController(registrarPago, listarPagos, listarFacturas);
+      ListarFacturasUseCase listarFacturas,
+      ListarCajasUseCase listarCajas,
+      ActualizarTotalCajaUseCase actualizarTotalCaja,
+      UserSession userSession) {
+    return new PagoController(registrarPago, listarPagos, listarFacturas, listarCajas, actualizarTotalCaja, userSession);
   }
 
   @Bean
   public CajaController cajaController(
       AbrirCajaUseCase abrirCaja,
       CerrarCajaUseCase cerrarCaja,
-      ListarCajasUseCase listarCajas) {
-    return new CajaController(abrirCaja, cerrarCaja, listarCajas);
+      ListarCajasUseCase listarCajas,
+      UserSession userSession) {
+    return new CajaController(abrirCaja, cerrarCaja, listarCajas, userSession);
   }
 }

@@ -27,7 +27,19 @@
 
     <VBox styleClass="card" spacing="10.0">
         <children>
-            <Label text="Nueva Factura" style="-fx-font-size: 14; -fx-font-weight: bold" />
+            <Label text="Seleccionar Orden para Facturación" style="-fx-font-size: 14; -fx-font-weight: bold" />
+            
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <Label text="Órdenes Disponibles:" />
+                <ComboBox fx:id="cbOrdenes" prefWidth="300" />
+                <Button fx:id="btnCargarOrden" text="Cargar Orden" onAction="#handleCargarOrden" />
+            </HBox>
+        </children>
+    </VBox>
+
+    <VBox styleClass="card" spacing="10.0">
+        <children>
+            <Label text="Datos de Factura" style="-fx-font-size: 14; -fx-font-weight: bold" />
             
             <GridPane hgap="15.0" vgap="10.0">
                 <columnConstraints>
@@ -37,17 +49,17 @@
                     <ColumnConstraints percentWidth="25" />
                 </columnConstraints>
                 
-                <Label text="Orden:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <TextField fx:id="txtNumeroOrden" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label text="Número Orden:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="lblNumeroOrden" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                 
                 <Label text="Paciente:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                <TextField fx:id="txtPaciente" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <Label fx:id="lblPaciente" text="-" GridPane.columnIndex="3" GridPane.rowIndex="0" />
                 
                 <Label text="Documento:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="txtDocumento" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label fx:id="lblDocumento" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 
                 <Label text="Subtotal:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <TextField fx:id="txtSubtotal" GridPane.columnIndex="3" GridPane.rowIndex="1" onKeyReleased="#handleCalcularTotal" />
+                <Label fx:id="lblSubtotal" text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="1" style="-fx-font-weight: bold" />
                 
                 <Label text="Descuento:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                 <TextField fx:id="txtDescuento" GridPane.columnIndex="1" GridPane.rowIndex="2" onKeyReleased="#handleCalcularTotal" />
@@ -56,14 +68,14 @@
                 <TextField fx:id="txtImpuesto" GridPane.columnIndex="3" GridPane.rowIndex="2" onKeyReleased="#handleCalcularTotal" />
                 
                 <Label text="Total:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <Label fx:id="lblTotal" text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="3" style="-fx-font-weight: bold" />
+                <Label fx:id="lblTotal" text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="3" style="-fx-font-weight: bold; -fx-font-size: 14" />
                 
                 <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <TextArea fx:id="txtaObservaciones" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
             </GridPane>
             
             <HBox spacing="10.0">
-                <Button fx:id="btnGuardar" text="Guardar" onAction="#handleGuardar" />
+                <Button fx:id="btnGuardar" text="Guardar Factura" onAction="#handleGuardar" />
                 <Button fx:id="btnLimpiar" text="Limpiar" onAction="#handleLimpiar" />
             </HBox>
         </children>

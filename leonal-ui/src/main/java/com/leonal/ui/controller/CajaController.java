@@ -4,6 +4,7 @@ import com.leonal.application.dto.caja.CajaSessionDto;
 import com.leonal.application.usecase.caja.AbrirCajaUseCase;
 import com.leonal.application.usecase.caja.CerrarCajaUseCase;
 import com.leonal.application.usecase.caja.ListarCajasUseCase;
+import com.leonal.ui.context.UserSession;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -23,6 +24,7 @@ public class CajaController {
     private final AbrirCajaUseCase abrirCajaUseCase;
     private final CerrarCajaUseCase cerrarCajaUseCase;
     private final ListarCajasUseCase listarCajasUseCase;
+    private final UserSession userSession;
 
     // Sección Apertura de Caja
     @FXML
@@ -67,8 +69,6 @@ public class CajaController {
     private TableColumn<CajaSessionDto, BigDecimal> colMontoFinal;
 
     private CajaSessionDto cajaActual;
-    private final UUID usuarioCajeroId = UUID.randomUUID(); // En producción, obtener del contexto de seguridad
-    private final String usuarioCajeroNombre = "Cajero Sistema"; // En producción, obtener del contexto de seguridad
 
     @FXML
     public void initialize() {
@@ -92,6 +92,8 @@ public class CajaController {
         try {
             BigDecimal montoInicial = txtMontoInicial.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtMontoInicial.getText());
 
+            UUID usuarioCajeroId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId() : UUID.randomUUID();
+            String usuarioCajeroNombre = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getNombreCompleto() : "Sistema";
             cajaActual = abrirCajaUseCase.execute(usuarioCajeroId, usuarioCajeroNombre, montoInicial);
             mostrarExito("Caja abierta exitosamente a las " + cajaActual.getHoraApertura());
             actualizarEstadoCaja();

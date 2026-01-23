@@ -17,6 +17,7 @@ import java.util.UUID;
 public class OrdenDto {
   private UUID id;
   private String codigoOrden;
+  private UUID pacienteId;
   private String pacienteNombre;
   private String pacienteDocumento;
   private LocalDateTime fechaRecepcion;

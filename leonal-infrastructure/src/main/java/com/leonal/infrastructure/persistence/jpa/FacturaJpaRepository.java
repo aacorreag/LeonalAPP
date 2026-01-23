@@ -24,6 +24,6 @@ public interface FacturaJpaRepository extends JpaRepository<FacturaEntity, UUID>
     @Query("SELECT f FROM FacturaEntity f WHERE f.fechaEmision BETWEEN :fechaInicio AND :fechaFin")
     List<FacturaEntity> findByFecha(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
-    @Query("SELECT MAX(CAST(SUBSTRING(f.numero, 7) AS INTEGER)) FROM FacturaEntity f")
+    @Query("SELECT MAX(CAST(SUBSTRING(f.numero, 10) AS INTEGER)) FROM FacturaEntity f")
     Optional<Integer> findMaxNumeroSequence();
 }

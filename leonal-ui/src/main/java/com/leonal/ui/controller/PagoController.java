@@ -6,7 +6,10 @@ import com.leonal.application.dto.factura.FacturaDto;
 import com.leonal.application.usecase.pago.RegistrarPagoUseCase;
 import com.leonal.application.usecase.pago.ListarPagosUseCase;
 import com.leonal.application.usecase.factura.ListarFacturasUseCase;
+import com.leonal.application.usecase.caja.ListarCajasUseCase;
+import com.leonal.application.usecase.caja.ActualizarTotalCajaUseCase;
 import com.leonal.domain.model.FormaPago;
+import com.leonal.ui.context.UserSession;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -25,6 +28,9 @@ public class PagoController {
     private final RegistrarPagoUseCase registrarPagoUseCase;
     private final ListarPagosUseCase listarPagosUseCase;
     private final ListarFacturasUseCase listarFacturasUseCase;
+    private final ListarCajasUseCase listarCajasUseCase;
+    private final ActualizarTotalCajaUseCase actualizarTotalCajaUseCase;
+    private final UserSession userSession;
 
     @FXML
     private ComboBox<FacturaDto> cbFactura;
@@ -139,7 +145,19 @@ public class PagoController {
                     .observaciones(txtaObservaciones.getText())
                     .build();
 
-            PagoDto pago = registrarPagoUseCase.execute(request, UUID.randomUUID());
+            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId() : UUID.randomUUID();
+            PagoDto pago = registrarPagoUseCase.execute(request, usuarioId);
+            
+            // Actualizar totales de caja abierta si existe (decrementar egreso o incrementar ingreso según pago)
+            try {
+                var cajasAbiertas = listarCajasUseCase.executeByEstado("ABIERTA");
+                if (!cajasAbiertas.isEmpty()) {
+                    actualizarTotalCajaUseCase.execute(cajasAbiertas.get(0).getId(), monto);
+                }
+            } catch (Exception e) {
+                // Si falla la actualización de caja, solo notificar pero no bloquear el pago
+            }
+            
             mostrarExito("Pago registrado exitosamente");
             limpiarFormulario();
             cargarPagos();

@@ -10,17 +10,21 @@ import com.leonal.application.usecase.user.ListarRolesUseCase;
 import com.leonal.application.usecase.user.ListarUsuariosUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
+import com.leonal.application.usecase.orden.ActualizarEstadoOrdenUseCase;
+import com.leonal.application.usecase.orden.ObtenerOrdenPorIdUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
 import com.leonal.application.usecase.resultado.GenerarReporteResultadosUseCase;
 import com.leonal.application.usecase.factura.CrearFacturaUseCase;
 import com.leonal.application.usecase.factura.ListarFacturasUseCase;
+import com.leonal.application.usecase.factura.ActualizarEstadoFacturaUseCase;
 import com.leonal.application.usecase.pago.RegistrarPagoUseCase;
 import com.leonal.application.usecase.pago.ListarPagosUseCase;
 import com.leonal.application.usecase.caja.AbrirCajaUseCase;
 import com.leonal.application.usecase.caja.CerrarCajaUseCase;
 import com.leonal.application.usecase.caja.ListarCajasUseCase;
+import com.leonal.application.usecase.caja.ActualizarTotalCajaUseCase;
 import com.leonal.domain.port.output.PacienteRepositoryPort;
 import com.leonal.domain.port.output.UsuarioRepositoryPort;
 import com.leonal.domain.port.output.ReportRepositoryPort;
@@ -98,6 +102,16 @@ public class UseCaseConfig {
   }
 
   @Bean
+  public ActualizarEstadoOrdenUseCase actualizarEstadoOrdenUseCase(OrdenRepositoryPort ordenRepository) {
+    return new ActualizarEstadoOrdenUseCase(ordenRepository);
+  }
+
+  @Bean
+  public ObtenerOrdenPorIdUseCase obtenerOrdenPorIdUseCase(OrdenRepositoryPort ordenRepository) {
+    return new ObtenerOrdenPorIdUseCase(ordenRepository);
+  }
+
+  @Bean
   public GenerarComprobanteOrdenUseCase generarComprobanteOrdenUseCase(
       OrdenRepositoryPort ordenRepository,
       ReportRepositoryPort reportRepository) {
@@ -138,6 +152,11 @@ public class UseCaseConfig {
   }
 
   @Bean
+  public ActualizarEstadoFacturaUseCase actualizarEstadoFacturaUseCase(FacturaRepositoryPort facturaRepository) {
+    return new ActualizarEstadoFacturaUseCase(facturaRepository);
+  }
+
+  @Bean
   public RegistrarPagoUseCase registrarPagoUseCase(
       PagoRepositoryPort pagoRepository,
       FacturaRepositoryPort facturaRepository) {
@@ -162,5 +181,10 @@ public class UseCaseConfig {
   @Bean
   public ListarCajasUseCase listarCajasUseCase(CajaRepositoryPort cajaRepository) {
     return new ListarCajasUseCase(cajaRepository);
+  }
+
+  @Bean
+  public ActualizarTotalCajaUseCase actualizarTotalCajaUseCase(CajaRepositoryPort cajaRepository) {
+    return new ActualizarTotalCajaUseCase(cajaRepository);
   }
 }
