@@ -1,5 +1,6 @@
 # Compilados y builds
 target/
+**/target/
 build/
 out/
 *.class
@@ -119,3 +120,6 @@ run_output*.log
 ui_build_error.log
 maven.zip
 apache-maven-*/
+
+# Instrucciones y flujos del asistente de IA
+.agent/
