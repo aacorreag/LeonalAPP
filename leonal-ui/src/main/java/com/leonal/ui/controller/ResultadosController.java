@@ -44,7 +44,7 @@ public class ResultadosController {
   @FXML
   private TableColumn<OrdenDto, Void> colAcciones;
 
-  private ObservableList<OrdenDto> masterData = FXCollections.observableArrayList();
+  private final ObservableList<OrdenDto> masterData = FXCollections.observableArrayList();
 
   public void initialize() {
     configurarColumnas();
@@ -53,10 +53,50 @@ public class ResultadosController {
   }
 
   private void configurarColumnas() {
-    colNumero.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCodigoOrden()));
-    colPaciente.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPacienteNombre()));
-    colFecha.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFechaRecepcion().toString()));
-    colEstado.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEstado()));
+    colNumero.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getCodigoOrden()));
+
+    colPaciente.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getPacienteNombre()));
+
+    colFecha.setCellValueFactory(data ->
+            new SimpleStringProperty(
+                    data.getValue().getFechaRecepcion() != null
+                            ? data.getValue().getFechaRecepcion().toString()
+                            : ""
+            ));
+
+    colEstado.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getEstado()));
+
+    // 👉 MISMO COLOR POR ESTADO (CSS GLOBAL)
+    colEstado.setCellFactory(col -> new TableCell<>() {
+      @Override
+      protected void updateItem(String estado, boolean empty) {
+        super.updateItem(estado, empty);
+
+        getStyleClass().removeAll(
+                "estado-validado",
+                "estado-proceso",
+                "estado-cancelado",
+                "estado-default"
+        );
+
+        if (empty || estado == null) {
+          setText(null);
+          return;
+        }
+
+        setText(estado);
+
+        switch (estado.toUpperCase()) {
+          case "VALIDADO" -> getStyleClass().add("estado-validado");
+          case "PROCESO" -> getStyleClass().add("estado-proceso");
+          case "CANCELADO" -> getStyleClass().add("estado-cancelado");
+          default -> getStyleClass().add("estado-default");
+        }
+      }
+    });
 
     colAcciones.setCellFactory(param -> new TableCell<>() {
       private final Button btnIngresar = new Button("📝 Ingresar");
@@ -92,9 +132,12 @@ public class ResultadosController {
           setGraphic(null);
         } else {
           OrdenDto orden = getTableView().getItems().get(getIndex());
-          btnIngresar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
-          btnValidar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
-          btnImprimir.setVisible("VALIDADO".equals(orden.getEstado()) || "ENTREGADO".equals(orden.getEstado()));
+          btnIngresar.setVisible(!"VALIDADO".equals(orden.getEstado())
+                  && !"ENTREGADO".equals(orden.getEstado()));
+          btnValidar.setVisible(!"VALIDADO".equals(orden.getEstado())
+                  && !"ENTREGADO".equals(orden.getEstado()));
+          btnImprimir.setVisible("VALIDADO".equals(orden.getEstado())
+                  || "ENTREGADO".equals(orden.getEstado()));
           setGraphic(container);
         }
       }
@@ -104,9 +147,11 @@ public class ResultadosController {
   @FXML
   public void actualizarLista() {
     List<OrdenDto> ordenes = listarOrdenesUseCase.ejecutar();
-    masterData.setAll(ordenes.stream()
-        .filter(o -> !"ENTREGADO".equals(o.getEstado()))
-        .collect(Collectors.toList()));
+    masterData.setAll(
+            ordenes.stream()
+                    .filter(o -> !"ENTREGADO".equals(o.getEstado()))
+                    .collect(Collectors.toList())
+    );
   }
 
   private void configurarFiltro() {
@@ -115,12 +160,14 @@ public class ResultadosController {
       filteredData.setPredicate(orden -> {
         if (newValue == null || newValue.isEmpty())
           return true;
+
         String lowerCaseFilter = newValue.toLowerCase();
+
         if (orden.getCodigoOrden().toLowerCase().contains(lowerCaseFilter))
           return true;
-        if (orden.getPacienteNombre() != null && orden.getPacienteNombre().toLowerCase().contains(lowerCaseFilter))
-          return true;
-        return false;
+
+        return orden.getPacienteNombre() != null
+                && orden.getPacienteNombre().toLowerCase().contains(lowerCaseFilter);
       });
     });
     tblOrdenes.setItems(filteredData);
@@ -129,7 +176,7 @@ public class ResultadosController {
   private void abrirDialogoResultados(OrdenDto orden) {
     try {
       javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-          getClass().getResource("/fxml/ingreso_resultados_dialog.fxml"));
+              getClass().getResource("/fxml/ingreso_resultados_dialog.fxml"));
       loader.setControllerFactory(applicationContext::getBean);
       javafx.scene.Parent root = loader.load();
 
@@ -165,7 +212,9 @@ public class ResultadosController {
     try {
       byte[] pdfData = generarReporteResultadosUseCase.execute(orden.getId());
 
-      java.io.File tempFile = java.io.File.createTempFile("resultado_" + orden.getCodigoOrden(), ".pdf");
+      java.io.File tempFile =
+              java.io.File.createTempFile("resultado_" + orden.getCodigoOrden(), ".pdf");
+
       try (java.io.FileOutputStream fos = new java.io.FileOutputStream(tempFile)) {
         fos.write(pdfData);
       }

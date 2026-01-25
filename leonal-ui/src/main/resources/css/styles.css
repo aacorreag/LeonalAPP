@@ -204,3 +204,31 @@
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 120, 215, 0.15), 15, 0, 0, 6);
 	-fx-translate-y: -2;
 }
+
+/* ============================= */
+/*  ESTADOS GENERALES DEL SISTEMA */
+/* ============================= */
+
+.estado-validado {
+	-fx-background-color: #d4edda;
+	-fx-text-fill: #155724;
+	-fx-font-weight: bold;
+}
+
+.estado-proceso {
+	-fx-background-color: #fff3cd;
+	-fx-text-fill: #856404;
+	-fx-font-weight: bold;
+}
+
+.estado-cancelado {
+	-fx-background-color: #f8d7da;
+	-fx-text-fill: #721c24;
+	-fx-font-weight: bold;
+}
+
+.estado-default {
+	-fx-background-color: #e2e3e5;
+	-fx-text-fill: #383d41;
+	-fx-font-weight: bold;
+}

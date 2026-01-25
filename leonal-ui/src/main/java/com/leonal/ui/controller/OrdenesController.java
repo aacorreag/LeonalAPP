@@ -78,39 +78,29 @@ public class OrdenesController {
       protected void updateItem(String estado, boolean empty) {
         super.updateItem(estado, empty);
 
+        getStyleClass().removeAll(
+                "estado-validado",
+                "estado-proceso",
+                "estado-cancelado",
+                "estado-default"
+        );
+
         if (empty || estado == null) {
           setText(null);
-          setStyle("");
           return;
         }
 
         setText(estado);
-        setStyle("-fx-font-weight: bold;");
 
         switch (estado.toUpperCase()) {
-          case "VALIDADO" -> setStyle(
-                  "-fx-background-color: #d4edda; " +
-                  "-fx-text-fill: #155724; " +
-                  "-fx-font-weight: bold;"
-          );
-          case "PROCESO" -> setStyle(
-                  "-fx-background-color: #fff3cd; " +
-                  "-fx-text-fill: #856404; " +
-                  "-fx-font-weight: bold;"
-          );
-          case "CANCELADO" -> setStyle(
-                  "-fx-background-color: #f8d7da; " +
-                  "-fx-text-fill: #721c24; " +
-                  "-fx-font-weight: bold;"
-          );
-          default -> setStyle(
-                  "-fx-background-color: #e2e3e5; " +
-                  "-fx-text-fill: #383d41; " +
-                  "-fx-font-weight: bold;"
-          );
+          case "VALIDADO" -> getStyleClass().add("estado-validado");
+          case "PROCESO" -> getStyleClass().add("estado-proceso");
+          case "CANCELADO" -> getStyleClass().add("estado-cancelado");
+          default -> getStyleClass().add("estado-default");
         }
       }
     });
+
 
     colItems.setCellValueFactory(new PropertyValueFactory<>("itemCount"));
     colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));

@@ -23,6 +23,12 @@ public class JavaFXMain extends Application {
 
       javafx.scene.Parent root = loader.load();
       Scene scene = new Scene(root, 900, 600); // Standard minimal size
+      scene.getStylesheets().add(
+              java.util.Objects.requireNonNull(
+                      getClass().getResource("/css/styles.css"),
+                      "No se encontró css/styles.css en el classpath"
+              ).toExternalForm()
+      );
 
       stage.setScene(scene);
       stage.setTitle("leonalApp - Login");
