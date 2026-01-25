@@ -107,7 +107,7 @@ La opción más rápida. El proyecto incluye un archivo `docker-compose.yml` que
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/aacorreag/LeonalAPP.git
    cd leonalAPP
    ```
 
@@ -147,7 +147,7 @@ Si ya tienes PostgreSQL instalado:
 
 1. **Clonar repositorio:**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/aacorreag/LeonalAPP.git
    cd leonalAPP
    ```
 
