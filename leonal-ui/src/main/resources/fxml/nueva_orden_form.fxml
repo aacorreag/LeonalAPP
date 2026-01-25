@@ -24,9 +24,11 @@
         </HBox>
         
         <!-- Panel Paciente Existente -->
-        <HBox fx:id="panelBuscarPaciente" spacing="10" alignment="CENTER_LEFT">
-            <TextField fx:id="txtBuscarPaciente" promptText="Buscar por cédula o nombre..." prefWidth="300"/>
-            <Button text="🔍 Buscar" onAction="#buscarPaciente" styleClass="button button-secondary"/>
+        <HBox fx:id="panelBuscarPaciente" spacing="15.0" alignment="CENTER_LEFT">
+            <Label text="Paciente:" styleClass="form-label"/>
+    
+            <ComboBox fx:id="cmbPacientes" prefWidth="450.0" promptText="Escriba nombre o número de documento..." />
+    
             <Label fx:id="lblPacienteSeleccionado" text="" style="-fx-font-weight: bold; -fx-text-fill: #0078D7;"/>
         </HBox>
         

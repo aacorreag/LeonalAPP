@@ -187,4 +187,5 @@ public class UseCaseConfig {
   public ActualizarTotalCajaUseCase actualizarTotalCajaUseCase(CajaRepositoryPort cajaRepository) {
     return new ActualizarTotalCajaUseCase(cajaRepository);
   }
+
 }

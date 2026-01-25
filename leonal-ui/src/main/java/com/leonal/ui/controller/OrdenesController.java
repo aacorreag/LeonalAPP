@@ -16,12 +16,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import javafx.stage.FileChooser;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class OrdenesController {
@@ -30,7 +29,6 @@ public class OrdenesController {
   private final GenerarComprobanteOrdenUseCase generarComprobanteOrdenUseCase;
   private final org.springframework.context.ApplicationContext applicationContext;
 
-  // Main view components
   @FXML
   private TableView<OrdenDto> tablaOrdenes;
   @FXML
@@ -63,16 +61,61 @@ public class OrdenesController {
     colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoOrden"));
     colPaciente.setCellValueFactory(new PropertyValueFactory<>("pacienteNombre"));
     colDocumento.setCellValueFactory(new PropertyValueFactory<>("pacienteDocumento"));
+
     colFecha.setCellValueFactory(cell -> {
       var fecha = cell.getValue().getFechaRecepcion();
-      String formatted = fecha != null ? fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "";
+      String formatted = fecha != null
+              ? fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+              : "";
       return new SimpleStringProperty(formatted);
     });
+
     colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+
+    // 👉 COLOR POR ESTADO
+    colEstado.setCellFactory(col -> new TableCell<>() {
+      @Override
+      protected void updateItem(String estado, boolean empty) {
+        super.updateItem(estado, empty);
+
+        if (empty || estado == null) {
+          setText(null);
+          setStyle("");
+          return;
+        }
+
+        setText(estado);
+        setStyle("-fx-font-weight: bold;");
+
+        switch (estado.toUpperCase()) {
+          case "VALIDADO" -> setStyle(
+                  "-fx-background-color: #d4edda; " +
+                  "-fx-text-fill: #155724; " +
+                  "-fx-font-weight: bold;"
+          );
+          case "PROCESO" -> setStyle(
+                  "-fx-background-color: #fff3cd; " +
+                  "-fx-text-fill: #856404; " +
+                  "-fx-font-weight: bold;"
+          );
+          case "CANCELADO" -> setStyle(
+                  "-fx-background-color: #f8d7da; " +
+                  "-fx-text-fill: #721c24; " +
+                  "-fx-font-weight: bold;"
+          );
+          default -> setStyle(
+                  "-fx-background-color: #e2e3e5; " +
+                  "-fx-text-fill: #383d41; " +
+                  "-fx-font-weight: bold;"
+          );
+        }
+      }
+    });
+
     colItems.setCellValueFactory(new PropertyValueFactory<>("itemCount"));
     colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-    // Format total as currency
+    // Formato moneda
     colTotal.setCellFactory(col -> new TableCell<>() {
       @Override
       protected void updateItem(BigDecimal item, boolean empty) {
@@ -86,7 +129,6 @@ public class OrdenesController {
     });
 
     tablaOrdenes.setItems(ordenesList);
-
     setupAccionesColumn();
   }
 
@@ -105,11 +147,7 @@ public class OrdenesController {
       @Override
       protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
-        if (empty) {
-          setGraphic(null);
-        } else {
-          setGraphic(btnPrint);
-        }
+        setGraphic(empty ? null : btnPrint);
       }
     });
   }
@@ -118,19 +156,21 @@ public class OrdenesController {
     try {
       byte[] pdfBytes = generarComprobanteOrdenUseCase.ejecutar(ordenDto.getId());
 
-      javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+      FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Guardar Comprobante de Orden");
       fileChooser.setInitialFileName("Orden_" + ordenDto.getCodigoOrden() + ".pdf");
-      fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+      fileChooser.getExtensionFilters().add(
+              new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+      );
 
       java.io.File file = fileChooser.showSaveDialog(tablaOrdenes.getScene().getWindow());
       if (file != null) {
         java.nio.file.Files.write(file.toPath(), pdfBytes);
-        showAlert("Éxito", "Comprobante guardado correctamente en: " + file.getAbsolutePath());
+        showAlert("Éxito", "Comprobante guardado correctamente en:\n" + file.getAbsolutePath());
       }
     } catch (Exception e) {
       e.printStackTrace();
-      showAlert("Error", "No se pudo generar el comprobante: " + e.getMessage());
+      showAlert("Error", "No se pudo generar el comprobante:\n" + e.getMessage());
     }
   }
 
@@ -159,13 +199,8 @@ public class OrdenesController {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      showAlert("Error", "No se pudo abrir el formulario: " + e.getMessage());
+      showAlert("Error", "No se pudo abrir el formulario:\n" + e.getMessage());
     }
-  }
-
-  @FXML
-  public void cancelar() {
-    // No longer used in this controller
   }
 
   private void showAlert(String title, String message) {
