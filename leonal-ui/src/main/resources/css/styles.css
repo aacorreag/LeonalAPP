@@ -232,3 +232,35 @@
 	-fx-text-fill: #383d41;
 	-fx-font-weight: bold;
 }
+
+/* ============================= */
+/* INGRESO DE RESULTADOS */
+/* ============================= */
+
+.card-panel-small {
+	-fx-background-color: white;
+	-fx-border-color: #e0e0e0;
+	-fx-border-radius: 6;
+	-fx-background-radius: 6;
+}
+
+/* Título del examen y labels */
+.card-panel-small .label {
+	-fx-text-fill: #212529;
+}
+
+/* Rango de referencia */
+.card-panel-small .range-label {
+	-fx-text-fill: #6c757d;
+	-fx-font-size: 11px;
+}
+
+/* Checkbox dentro de tarjetas */
+.card-panel-small .check-box {
+	-fx-text-fill: #212529;
+}
+
+/* Campo de texto */
+.card-panel-small .text-field {
+	-fx-text-fill: #212529;
+}

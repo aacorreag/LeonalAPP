@@ -4,37 +4,76 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" prefWidth="650" stylesheets="@/css/styles.css" styleClass="content-padding" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leonal.ui.controller.IngresoResultadosDialogController">
+<VBox spacing="20"
+      prefWidth="650"
+      styleClass="content-padding"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.leonal.ui.controller.IngresoResultadosDialogController">
+
     <padding>
         <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>
+
     <children>
-        <VBox spacing="5.0">
+
+        <!-- TÍTULO -->
+        <VBox spacing="5">
             <children>
-                <Label styleClass="title-label" fx:id="lblTitulo" text="Resultados de Orden" />
-                <Label styleClass="subtitle-label" text="Ingrese los hallazgos técnicos para cada examen." />
+                <Label fx:id="lblTitulo"
+                       text="Resultados de Orden"
+                       styleClass="title-label"/>
+
+                <Label text="Ingrese los hallazgos técnicos para cada examen."
+                       styleClass="subtitle-label"/>
             </children>
         </VBox>
-        
-        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+
+        <!-- LISTA DE EXÁMENES -->
+        <ScrollPane fitToWidth="true"
+                    VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+
             <content>
-                <VBox fx:id="vboxExamenes" spacing="15">
+                <VBox fx:id="vboxExamenes"
+                      spacing="15">
+
                     <padding>
-                        <Insets right="10" />
+                        <Insets right="10"/>
                     </padding>
-                    <!-- Dinámicamente se añadirán aquí los campos de cada examen (.card-panel-small) -->
+
+                    <!--
+                      Aquí se agregan dinámicamente tarjetas de examen con esta estructura esperada:
+
+                      [ Nombre del examen ]
+                      Rango normal: min – max unidad
+
+                      [ Resultado ]  unidad   ☐ Resultado fuera de rango
+                      [ Observaciones (si aplica) ]
+                    -->
+
                 </VBox>
             </content>
         </ScrollPane>
 
-        <HBox spacing="15" alignment="CENTER_RIGHT">
+        <!-- BOTONES -->
+        <HBox spacing="15"
+              alignment="CENTER_RIGHT">
+
             <children>
-                <Button onAction="#cancelar" styleClass="button-secondary" text="Cancelar" />
-                <Button onAction="#guardar" styleClass="button-primary" text="Guardar Resultados" />
+                <Button text="Cancelar"
+                        onAction="#cancelar"
+                        styleClass="button-secondary"/>
+
+                <Button text="Guardar Resultados"
+                        onAction="#guardar"
+                        styleClass="button-primary"/>
             </children>
+
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="10"/>
             </VBox.margin>
         </HBox>
+
     </children>
 </VBox>

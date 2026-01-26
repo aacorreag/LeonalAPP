@@ -43,15 +43,20 @@ public class ListarOrdenesUseCase {
 
   private OrdenDetalleDto toDetalleDto(OrdenDetalle detalle) {
     return OrdenDetalleDto.builder()
-        .id(detalle.getId())
-        .examenId(detalle.getExamen() != null ? detalle.getExamen().getId() : null)
-        .examenCodigo(detalle.getExamen() != null ? detalle.getExamen().getCodigoInterno() : "")
-        .examenNombre(detalle.getExamen() != null ? detalle.getExamen().getNombre() : "")
-        .precioCobrado(detalle.getPrecioCobrado())
-        .estado(detalle.getEstado())
-        .valor(detalle.getResultado() != null ? detalle.getResultado().getValor() : null)
-        .observacionReporte(detalle.getResultado() != null ? detalle.getResultado().getObservacionReporte() : null)
-        .esPatologico(detalle.getResultado() != null && detalle.getResultado().isEsPatologico())
-        .build();
+            .id(detalle.getId())
+            .examenId(detalle.getExamen() != null ? detalle.getExamen().getId() : null)
+            .examenCodigo(detalle.getExamen() != null ? detalle.getExamen().getCodigoInterno() : "")
+            .examenNombre(detalle.getExamen() != null ? detalle.getExamen().getNombre() : "")
+            .precioCobrado(detalle.getPrecioCobrado())
+            .estado(detalle.getEstado())
+            .valor(detalle.getResultado() != null ? detalle.getResultado().getValor() : null)
+            .observacionReporte(detalle.getResultado() != null ? detalle.getResultado().getObservacionReporte() : null)
+            .esPatologico(detalle.getResultado() != null && detalle.getResultado().isEsPatologico())
+            .valoresReferencia(
+                    detalle.getExamen() != null
+                            ? detalle.getExamen().getValoresReferencia()
+                            : null
+            )
+            .build();
   }
 }

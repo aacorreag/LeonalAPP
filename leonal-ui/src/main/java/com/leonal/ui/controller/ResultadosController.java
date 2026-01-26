@@ -15,7 +15,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 
+import java.util.Objects;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +51,7 @@ public class ResultadosController {
   @FXML
   private TableColumn<OrdenDto, Void> colAcciones;
 
-  private final ObservableList<OrdenDto> masterData = FXCollections.observableArrayList();
+  private ObservableList<OrdenDto> masterData = FXCollections.observableArrayList();
 
   public void initialize() {
     configurarColumnas();
@@ -53,28 +60,17 @@ public class ResultadosController {
   }
 
   private void configurarColumnas() {
-    colNumero.setCellValueFactory(data ->
-            new SimpleStringProperty(data.getValue().getCodigoOrden()));
+    colNumero.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCodigoOrden()));
+    colPaciente.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPacienteNombre()));
+    colFecha.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFechaRecepcion().toString()));
+    colEstado.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEstado()));
 
-    colPaciente.setCellValueFactory(data ->
-            new SimpleStringProperty(data.getValue().getPacienteNombre()));
-
-    colFecha.setCellValueFactory(data ->
-            new SimpleStringProperty(
-                    data.getValue().getFechaRecepcion() != null
-                            ? data.getValue().getFechaRecepcion().toString()
-                            : ""
-            ));
-
-    colEstado.setCellValueFactory(data ->
-            new SimpleStringProperty(data.getValue().getEstado()));
-
-    // 👉 MISMO COLOR POR ESTADO (CSS GLOBAL)
     colEstado.setCellFactory(col -> new TableCell<>() {
       @Override
       protected void updateItem(String estado, boolean empty) {
         super.updateItem(estado, empty);
 
+        // limpiar clases previas
         getStyleClass().removeAll(
                 "estado-validado",
                 "estado-proceso",
@@ -132,12 +128,9 @@ public class ResultadosController {
           setGraphic(null);
         } else {
           OrdenDto orden = getTableView().getItems().get(getIndex());
-          btnIngresar.setVisible(!"VALIDADO".equals(orden.getEstado())
-                  && !"ENTREGADO".equals(orden.getEstado()));
-          btnValidar.setVisible(!"VALIDADO".equals(orden.getEstado())
-                  && !"ENTREGADO".equals(orden.getEstado()));
-          btnImprimir.setVisible("VALIDADO".equals(orden.getEstado())
-                  || "ENTREGADO".equals(orden.getEstado()));
+          btnIngresar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
+          btnValidar.setVisible(!"VALIDADO".equals(orden.getEstado()) && !"ENTREGADO".equals(orden.getEstado()));
+          btnImprimir.setVisible("VALIDADO".equals(orden.getEstado()) || "ENTREGADO".equals(orden.getEstado()));
           setGraphic(container);
         }
       }
@@ -147,11 +140,9 @@ public class ResultadosController {
   @FXML
   public void actualizarLista() {
     List<OrdenDto> ordenes = listarOrdenesUseCase.ejecutar();
-    masterData.setAll(
-            ordenes.stream()
-                    .filter(o -> !"ENTREGADO".equals(o.getEstado()))
-                    .collect(Collectors.toList())
-    );
+    masterData.setAll(ordenes.stream()
+        .filter(o -> !"ENTREGADO".equals(o.getEstado()))
+        .collect(Collectors.toList()));
   }
 
   private void configurarFiltro() {
@@ -160,14 +151,12 @@ public class ResultadosController {
       filteredData.setPredicate(orden -> {
         if (newValue == null || newValue.isEmpty())
           return true;
-
         String lowerCaseFilter = newValue.toLowerCase();
-
         if (orden.getCodigoOrden().toLowerCase().contains(lowerCaseFilter))
           return true;
-
-        return orden.getPacienteNombre() != null
-                && orden.getPacienteNombre().toLowerCase().contains(lowerCaseFilter);
+        if (orden.getPacienteNombre() != null && orden.getPacienteNombre().toLowerCase().contains(lowerCaseFilter))
+          return true;
+        return false;
       });
     });
     tblOrdenes.setItems(filteredData);
@@ -175,18 +164,28 @@ public class ResultadosController {
 
   private void abrirDialogoResultados(OrdenDto orden) {
     try {
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+      FXMLLoader loader = new FXMLLoader(
               getClass().getResource("/fxml/ingreso_resultados_dialog.fxml"));
       loader.setControllerFactory(applicationContext::getBean);
-      javafx.scene.Parent root = loader.load();
+
+      Parent root = loader.load();
 
       IngresoResultadosDialogController controller = loader.getController();
       controller.setOrden(orden);
 
-      javafx.stage.Stage stage = new javafx.stage.Stage();
+      // ✅ Scene con CSS
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(
+              Objects.requireNonNull(
+                      getClass().getResource("/css/styles.css"),
+                      "No se encontró css/styles.css"
+              ).toExternalForm()
+      );
+
+      Stage stage = new Stage();
       stage.setTitle("Ingreso de Resultados - " + orden.getCodigoOrden());
-      stage.setScene(new javafx.scene.Scene(root));
-      stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+      stage.setScene(scene);
+      stage.initModality(Modality.APPLICATION_MODAL);
       stage.showAndWait();
 
       actualizarLista();
@@ -212,9 +211,7 @@ public class ResultadosController {
     try {
       byte[] pdfData = generarReporteResultadosUseCase.execute(orden.getId());
 
-      java.io.File tempFile =
-              java.io.File.createTempFile("resultado_" + orden.getCodigoOrden(), ".pdf");
-
+      java.io.File tempFile = java.io.File.createTempFile("resultado_" + orden.getCodigoOrden(), ".pdf");
       try (java.io.FileOutputStream fos = new java.io.FileOutputStream(tempFile)) {
         fos.write(pdfData);
       }

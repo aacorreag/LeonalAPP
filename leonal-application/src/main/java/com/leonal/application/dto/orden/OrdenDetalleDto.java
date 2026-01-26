@@ -24,4 +24,6 @@ public class OrdenDetalleDto {
   private String valor;
   private String observacionReporte;
   private boolean esPatologico;
+
+  private String valoresReferencia;
 }

@@ -13,11 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class IngresoResultadosDialogController {
@@ -41,40 +37,63 @@ public class IngresoResultadosDialogController {
 
   private void generarCampos() {
     vboxExamenes.getChildren().clear();
+    camposMap.clear();
+
     for (OrdenDetalleDto detalle : orden.getDetalles()) {
-      VBox card = new VBox(5);
+
+      VBox card = new VBox(6);
       card.getStyleClass().add("card-panel-small");
 
+      // ===== NOMBRE DEL EXAMEN =====
       Label lblExamen = new Label(detalle.getExamenNombre());
-      lblExamen.setStyle("-fx-font-weight: bold;");
+      lblExamen.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
+      // ===== RANGO DE REFERENCIA (AÚN NO DISPONIBLE) =====
+      String referencia = detalle.getValoresReferencia();
+
+      Label lblRango;
+      if (referencia != null && !referencia.isBlank()) {
+        lblRango = new Label("Referencia: " + referencia);
+      } else {
+        lblRango = new Label("Referencia: *No definida");
+      }
+
+      lblRango.getStyleClass().add("range-label");
+
+      // ===== GRID DE CAMPOS =====
       GridPane grid = new GridPane();
       grid.setHgap(10);
-      grid.setVgap(5);
+      grid.setVgap(6);
 
       TextField txtValor = new TextField();
-      txtValor.setPromptText("Valor / Resultado");
-      txtValor.setPrefWidth(200);
+      txtValor.setPromptText("Resultado");
+      txtValor.setPrefWidth(160);
       txtValor.setText(detalle.getValor() != null ? detalle.getValor() : "");
 
+      CheckBox chkFueraRango = new CheckBox("Resultado fuera de rango");
+      chkFueraRango.setSelected(detalle.isEsPatologico());
+
       TextField txtObs = new TextField();
-      txtObs.setPromptText("Observaciones para el reporte");
-      txtObs.setPrefWidth(300);
-      txtObs.setText(detalle.getObservacionReporte() != null ? detalle.getObservacionReporte() : "");
+      txtObs.setPromptText("Observaciones (si aplica)");
+      txtObs.setPrefWidth(320);
+      txtObs.setText(
+              detalle.getObservacionReporte() != null
+                      ? detalle.getObservacionReporte()
+                      : ""
+      );
 
-      CheckBox chkPatologico = new CheckBox("Patológico");
-      chkPatologico.setSelected(detalle.isEsPatologico());
-
-      grid.add(new Label("Valor:"), 0, 0);
+      grid.add(new Label("Resultado:"), 0, 0);
       grid.add(txtValor, 1, 0);
-      grid.add(chkPatologico, 2, 0);
-      grid.add(new Label("Obs:"), 0, 1);
+      grid.add(chkFueraRango, 2, 0);
       grid.add(txtObs, 1, 1, 2, 1);
 
-      card.getChildren().addAll(lblExamen, grid);
+      card.getChildren().addAll(lblExamen, lblRango, grid);
       vboxExamenes.getChildren().add(card);
 
-      camposMap.put(detalle.getId(), new CamposResultado(txtValor, txtObs, chkPatologico));
+      camposMap.put(
+              detalle.getId(),
+              new CamposResultado(txtValor, txtObs, chkFueraRango)
+      );
     }
   }
 
@@ -84,18 +103,21 @@ public class IngresoResultadosDialogController {
 
     for (Map.Entry<UUID, CamposResultado> entry : camposMap.entrySet()) {
       CamposResultado campos = entry.getValue();
-      resultados.add(ItemResultadoRequest.builder()
-          .ordenDetalleId(entry.getKey())
-          .valor(campos.txtValor.getText())
-          .observacionReporte(campos.txtObs.getText())
-          .esPatologico(campos.chkPatologico.isSelected())
-          .build());
+
+      resultados.add(
+              ItemResultadoRequest.builder()
+                      .ordenDetalleId(entry.getKey())
+                      .valor(campos.txtValor.getText())
+                      .observacionReporte(campos.txtObs.getText())
+                      .esPatologico(campos.chkFueraRango.isSelected())
+                      .build()
+      );
     }
 
     ActualizarResultadosRequest request = ActualizarResultadosRequest.builder()
-        .ordenId(orden.getId())
-        .resultados(resultados)
-        .build();
+            .ordenId(orden.getId())
+            .resultados(resultados)
+            .build();
 
     try {
       ingresarResultadosUseCase.execute(request, userSession.getCurrentUser().getId());
@@ -124,6 +146,9 @@ public class IngresoResultadosDialogController {
     alert.showAndWait();
   }
 
-  private record CamposResultado(TextField txtValor, TextField txtObs, CheckBox chkPatologico) {
-  }
+  private record CamposResultado(
+          TextField txtValor,
+          TextField txtObs,
+          CheckBox chkFueraRango
+  ) {}
 }
