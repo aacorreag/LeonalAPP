@@ -16,4 +16,6 @@ public interface OrdenRepositoryPort {
   List<Orden> findByPacienteId(UUID pacienteId);
 
   long countByFecha(java.time.LocalDate fecha);
+
+  List<Orden> findAllUnbilled();
 }

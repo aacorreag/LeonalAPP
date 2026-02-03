@@ -80,4 +80,13 @@ public class OrdenRepositoryAdapter implements OrdenRepositoryPort {
     LocalDateTime endOfDay = fecha.atTime(LocalTime.MAX);
     return ordenJpaRepository.countByFechaRecepcionBetween(startOfDay, endOfDay);
   }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Orden> findAllUnbilled() {
+    return ordenJpaRepository.findUnbilled()
+        .stream()
+        .map(ordenMapper::toDomain)
+        .collect(Collectors.toList());
+  }
 }

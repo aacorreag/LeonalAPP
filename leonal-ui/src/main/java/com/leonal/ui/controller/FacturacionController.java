@@ -29,6 +29,7 @@ public class FacturacionController {
     private final CrearFacturaUseCase crearFacturaUseCase;
     private final ListarFacturasUseCase listarFacturasUseCase;
     private final ListarOrdenesUseCase listarOrdenesUseCase;
+    private final com.leonal.application.usecase.orden.ListarOrdenesSinFacturaUseCase listarOrdenesSinFacturaUseCase;
     private final ObtenerOrdenPorIdUseCase obtenerOrdenPorIdUseCase;
     private final ActualizarTotalCajaUseCase actualizarTotalCajaUseCase;
     private final ListarCajasUseCase listarCajasUseCase;
@@ -101,8 +102,7 @@ public class FacturacionController {
 
     private void configurarComboBox() {
         cbEstado.setItems(FXCollections.observableArrayList(
-                "EMITIDA", "PAGADA", "ANULADA"
-        ));
+                "EMITIDA", "PAGADA", "ANULADA"));
     }
 
     @FXML
@@ -134,16 +134,16 @@ public class FacturacionController {
 
     private void cargarOrdenes() {
         try {
-            List<OrdenDto> ordenes = listarOrdenesUseCase.ejecutar();
+            List<OrdenDto> ordenes = listarOrdenesSinFacturaUseCase.ejecutar();
             mapaOrdenes.clear();
-            
+
             List<String> opcionesOrdenes = ordenes.stream()
-                .map(o -> {
-                    String opcion = String.format("%s - %s", o.getCodigoOrden(), o.getPacienteNombre());
-                    mapaOrdenes.put(opcion, o.getId());
-                    return opcion;
-                })
-                .toList();
+                    .map(o -> {
+                        String opcion = String.format("%s - %s", o.getCodigoOrden(), o.getPacienteNombre());
+                        mapaOrdenes.put(opcion, o.getId());
+                        return opcion;
+                    })
+                    .toList();
 
             cbOrdenes.setItems(FXCollections.observableArrayList(opcionesOrdenes));
         } catch (Exception e) {
@@ -160,8 +160,10 @@ public class FacturacionController {
             }
 
             BigDecimal subtotal = ordenActual.getTotal();
-            BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtDescuento.getText());
-            BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtImpuesto.getText());
+            BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO
+                    : new BigDecimal(txtDescuento.getText());
+            BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO
+                    : new BigDecimal(txtImpuesto.getText());
 
             CreateFacturaRequest request = CreateFacturaRequest.builder()
                     .ordenId(ordenActual.getId())
@@ -171,10 +173,11 @@ public class FacturacionController {
                     .observaciones(txtaObservaciones.getText())
                     .build();
 
-            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId() : UUID.randomUUID();
-            FacturaDto factura = crearFacturaUseCase.execute(request, ordenActual.getPacienteId(), 
-                ordenActual.getPacienteNombre(), ordenActual.getPacienteDocumento(), usuarioId);
-            
+            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId()
+                    : UUID.randomUUID();
+            FacturaDto factura = crearFacturaUseCase.execute(request, ordenActual.getPacienteId(),
+                    ordenActual.getPacienteNombre(), ordenActual.getPacienteDocumento(), usuarioId);
+
             // Actualizar totales de caja abierta si existe
             try {
                 var cajasAbiertas = listarCajasUseCase.executeByEstado("ABIERTA");
@@ -182,9 +185,10 @@ public class FacturacionController {
                     actualizarTotalCajaUseCase.execute(cajasAbiertas.get(0).getId(), factura.getTotal());
                 }
             } catch (Exception e) {
-                // Si falla la actualización de caja, solo notificar pero no bloquear la creación de factura
+                // Si falla la actualización de caja, solo notificar pero no bloquear la
+                // creación de factura
             }
-            
+
             mostrarExito("Factura creada: " + factura.getNumero());
             limpiarFormulario();
             cargarFacturas();
@@ -232,8 +236,10 @@ public class FacturacionController {
     public void handleCalcularTotal() {
         try {
             BigDecimal subtotal = new BigDecimal(lblSubtotal.getText());
-            BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtDescuento.getText());
-            BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtImpuesto.getText());
+            BigDecimal descuento = txtDescuento.getText().isEmpty() ? BigDecimal.ZERO
+                    : new BigDecimal(txtDescuento.getText());
+            BigDecimal impuesto = txtImpuesto.getText().isEmpty() ? BigDecimal.ZERO
+                    : new BigDecimal(txtImpuesto.getText());
 
             BigDecimal total = subtotal.subtract(descuento).add(impuesto);
             lblTotal.setText(total.toPlainString());

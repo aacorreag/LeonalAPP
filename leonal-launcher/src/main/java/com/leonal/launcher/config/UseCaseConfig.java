@@ -12,6 +12,7 @@ import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
 import com.leonal.application.usecase.orden.ActualizarEstadoOrdenUseCase;
 import com.leonal.application.usecase.orden.ObtenerOrdenPorIdUseCase;
+import com.leonal.application.usecase.orden.ListarOrdenesSinFacturaUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
@@ -115,7 +116,13 @@ public class UseCaseConfig {
   public GenerarComprobanteOrdenUseCase generarComprobanteOrdenUseCase(
       OrdenRepositoryPort ordenRepository,
       ReportRepositoryPort reportRepository) {
+
     return new GenerarComprobanteOrdenUseCase(ordenRepository, reportRepository);
+  }
+
+  @Bean
+  public ListarOrdenesSinFacturaUseCase listarOrdenesSinFacturaUseCase(OrdenRepositoryPort ordenRepository) {
+    return new ListarOrdenesSinFacturaUseCase(ordenRepository);
   }
 
   // Resultado Use Cases

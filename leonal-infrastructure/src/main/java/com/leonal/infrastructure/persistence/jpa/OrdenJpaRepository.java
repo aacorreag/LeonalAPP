@@ -20,4 +20,7 @@ public interface OrdenJpaRepository extends JpaRepository<OrdenEntity, UUID> {
       @Param("endOfDay") LocalDateTime endOfDay);
 
   List<OrdenEntity> findAllByOrderByFechaRecepcionDesc();
+
+  @Query("SELECT o FROM OrdenEntity o WHERE o.id NOT IN (SELECT f.ordenId FROM FacturaEntity f WHERE f.estado != 'ANULADA') ORDER BY o.fechaRecepcion DESC")
+  List<OrdenEntity> findUnbilled();
 }

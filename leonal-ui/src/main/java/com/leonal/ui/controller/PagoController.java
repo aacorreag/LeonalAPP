@@ -71,7 +71,7 @@ public class PagoController {
         configurarComboBoxFacturas();
         configurarComboBoxFormaPago();
         cargarPagos();
-        
+
         // Listener para cambios en factura seleccionada
         cbFactura.setOnAction(e -> handleFacturaSeleccionada());
     }
@@ -85,9 +85,9 @@ public class PagoController {
     }
 
     private void configurarComboBoxFacturas() {
-        List<FacturaDto> facturas = listarFacturasUseCase.execute();
+        List<FacturaDto> facturas = listarFacturasUseCase.executeByEstado("EMITIDA");
         cbFactura.setItems(FXCollections.observableArrayList(facturas));
-        
+
         // Custom cell factory para mostrar número de factura
         cbFactura.setCellFactory(param -> new ListCell<FacturaDto>() {
             @Override
@@ -96,7 +96,7 @@ public class PagoController {
                 setText(empty ? null : item.getNumero());
             }
         });
-        
+
         cbFactura.setButtonCell(new ListCell<FacturaDto>() {
             @Override
             protected void updateItem(FacturaDto item, boolean empty) {
@@ -145,10 +145,12 @@ public class PagoController {
                     .observaciones(txtaObservaciones.getText())
                     .build();
 
-            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId() : UUID.randomUUID();
+            UUID usuarioId = userSession.getCurrentUser() != null ? userSession.getCurrentUser().getId()
+                    : UUID.randomUUID();
             PagoDto pago = registrarPagoUseCase.execute(request, usuarioId);
-            
-            // Actualizar totales de caja abierta si existe (decrementar egreso o incrementar ingreso según pago)
+
+            // Actualizar totales de caja abierta si existe (decrementar egreso o
+            // incrementar ingreso según pago)
             try {
                 var cajasAbiertas = listarCajasUseCase.executeByEstado("ABIERTA");
                 if (!cajasAbiertas.isEmpty()) {
@@ -157,7 +159,7 @@ public class PagoController {
             } catch (Exception e) {
                 // Si falla la actualización de caja, solo notificar pero no bloquear el pago
             }
-            
+
             mostrarExito("Pago registrado exitosamente");
             limpiarFormulario();
             cargarPagos();

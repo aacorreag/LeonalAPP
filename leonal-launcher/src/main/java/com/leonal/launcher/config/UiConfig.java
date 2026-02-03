@@ -11,6 +11,7 @@ import com.leonal.application.usecase.examen.GuardarExamenUseCase;
 import com.leonal.application.usecase.orden.CrearOrdenUseCase;
 import com.leonal.application.usecase.orden.ListarOrdenesUseCase;
 import com.leonal.application.usecase.orden.ObtenerOrdenPorIdUseCase;
+import com.leonal.application.usecase.orden.ListarOrdenesSinFacturaUseCase;
 import com.leonal.application.usecase.report.GenerarComprobanteOrdenUseCase;
 import com.leonal.application.usecase.resultado.IngresarResultadosUseCase;
 import com.leonal.application.usecase.resultado.ValidarOrdenUseCase;
@@ -138,11 +139,13 @@ public class UiConfig {
       CrearFacturaUseCase crearFactura,
       ListarFacturasUseCase listarFacturas,
       ListarOrdenesUseCase listarOrdenes,
+      ListarOrdenesSinFacturaUseCase listarOrdenesSinFactura,
       ObtenerOrdenPorIdUseCase obtenerOrden,
       ActualizarTotalCajaUseCase actualizarTotalCaja,
       ListarCajasUseCase listarCajas,
       UserSession userSession) {
-    return new FacturacionController(crearFactura, listarFacturas, listarOrdenes, obtenerOrden, actualizarTotalCaja, listarCajas, userSession);
+    return new FacturacionController(crearFactura, listarFacturas, listarOrdenes, listarOrdenesSinFactura, obtenerOrden,
+        actualizarTotalCaja, listarCajas, userSession);
   }
 
   @Bean
@@ -153,7 +156,8 @@ public class UiConfig {
       ListarCajasUseCase listarCajas,
       ActualizarTotalCajaUseCase actualizarTotalCaja,
       UserSession userSession) {
-    return new PagoController(registrarPago, listarPagos, listarFacturas, listarCajas, actualizarTotalCaja, userSession);
+    return new PagoController(registrarPago, listarPagos, listarFacturas, listarCajas, actualizarTotalCaja,
+        userSession);
   }
 
   @Bean
