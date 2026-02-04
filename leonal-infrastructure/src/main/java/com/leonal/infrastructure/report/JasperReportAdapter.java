@@ -90,4 +90,41 @@ public class JasperReportAdapter implements ReportRepositoryPort {
       throw new RuntimeException("Error al generar el reporte de resultados: " + e.getMessage(), e);
     }
   }
+
+  @Override
+  public byte[] generateFacturaReport(com.leonal.domain.model.Factura factura, Orden orden) {
+    try {
+      InputStream reportStream = getClass().getResourceAsStream("/reports/factura_venta.jrxml");
+      if (reportStream == null) {
+        throw new RuntimeException("No se encontró la plantilla del reporte: /reports/factura_venta.jrxml");
+      }
+
+      JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+      Map<String, Object> parameters = new HashMap<>();
+
+      // Cargar Logo
+      InputStream logoStream = getClass().getResourceAsStream("/images/logo.png");
+      if (logoStream != null) {
+        parameters.put("LOGO_PATH", logoStream);
+      }
+
+      parameters.put("NUMERO_FACTURA", factura.getNumero());
+      parameters.put("FECHA_EMISION", factura.getFechaEmision().toString());
+      parameters.put("CLIENTE_NOMBRE", factura.getPacienteNombre());
+      parameters.put("CLIENTE_DOC", factura.getPacienteDocumento() != null ? factura.getPacienteDocumento() : "N/A");
+      parameters.put("SUBTOTAL", factura.getSubtotal());
+      parameters.put("DESCUENTO", factura.getDescuento());
+      parameters.put("IMPUESTO", factura.getImpuesto());
+      parameters.put("TOTAL", factura.getTotal());
+
+      JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(orden.getDetalles());
+
+      JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+      return JasperExportManager.exportReportToPdf(jasperPrint);
+    } catch (JRException e) {
+      throw new RuntimeException("Error al generar el reporte de factura: " + e.getMessage(), e);
+    }
+  }
 }

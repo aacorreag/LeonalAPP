@@ -87,6 +87,7 @@
                 <Label text="Filtrar por estado:" />
                 <ComboBox fx:id="cbEstado" prefWidth="150" />
                 <Button fx:id="btnBuscar" text="Buscar" onAction="#handleBuscar" />
+                <Button fx:id="btnImprimir" text="Imprimir Seleccionada" onAction="#handleImprimir" />
             </HBox>
             
             <TableView fx:id="tblFacturas" prefHeight="300.0" VBox.vgrow="ALWAYS">

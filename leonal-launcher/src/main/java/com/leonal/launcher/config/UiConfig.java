@@ -135,6 +135,15 @@ public class UiConfig {
   // Facturación Controllers
 
   @Bean
+  public com.leonal.application.usecase.factura.GenerarReporteFacturaUseCase generarReporteFacturaUseCase(
+      com.leonal.domain.port.output.FacturaRepositoryPort facturaRepository,
+      com.leonal.domain.port.output.OrdenRepositoryPort ordenRepository,
+      com.leonal.domain.port.output.ReportRepositoryPort reportRepository) {
+    return new com.leonal.application.usecase.factura.GenerarReporteFacturaUseCase(facturaRepository, ordenRepository,
+        reportRepository);
+  }
+
+  @Bean
   public FacturacionController facturacionController(
       CrearFacturaUseCase crearFactura,
       ListarFacturasUseCase listarFacturas,
@@ -143,9 +152,10 @@ public class UiConfig {
       ObtenerOrdenPorIdUseCase obtenerOrden,
       ActualizarTotalCajaUseCase actualizarTotalCaja,
       ListarCajasUseCase listarCajas,
+      com.leonal.application.usecase.factura.GenerarReporteFacturaUseCase generarReporteFactura,
       UserSession userSession) {
     return new FacturacionController(crearFactura, listarFacturas, listarOrdenes, listarOrdenesSinFactura, obtenerOrden,
-        actualizarTotalCaja, listarCajas, userSession);
+        actualizarTotalCaja, listarCajas, generarReporteFactura, userSession);
   }
 
   @Bean

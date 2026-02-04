@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura_venta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567800">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="NUMERO_FACTURA" class="java.lang.String"/>
+	<parameter name="FECHA_EMISION" class="java.lang.String"/>
+	<parameter name="CLIENTE_NOMBRE" class="java.lang.String"/>
+	<parameter name="CLIENTE_DOC" class="java.lang.String"/>
+	<parameter name="SUBTOTAL" class="java.math.BigDecimal"/>
+	<parameter name="DESCUENTO" class="java.math.BigDecimal"/>
+	<parameter name="IMPUESTO" class="java.math.BigDecimal"/>
+	<parameter name="TOTAL" class="java.math.BigDecimal"/>
+	<parameter name="LOGO_PATH" class="java.io.InputStream"/>
+	<field name="examen.nombre" class="java.lang.String"/>
+	<field name="precioCobrado" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="160" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Left" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="0" y="0" width="200" height="80" uuid="7890abcd-ef12-3456-7890-abcdef123456"/>
+				<imageExpression><![CDATA[$P{LOGO_PATH}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="260" y="10" width="295" height="30" forecolor="#4A90E2" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567891"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURA DE VENTA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="260" y="40" width="295" height="20" forecolor="#666666" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567801"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No. " + $P{NUMERO_FACTURA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="65" width="255" height="15" forecolor="#999999" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567802"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[NIT: 900.123.456-7 | Reg. Común]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="90" width="555" height="1" forecolor="#D1D1D1" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567892"/>
+			</line>
+			<frame>
+				<reportElement x="0" y="100" width="555" height="50" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567893"/>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567894"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cliente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="80" y="0" width="250" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567895"/>
+					<textFieldExpression><![CDATA[$P{CLIENTE_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="340" y="0" width="60" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567898"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NIT/CC:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="400" y="0" width="150" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567899"/>
+					<textFieldExpression><![CDATA[$P{CLIENTE_DOC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="20" width="80" height="15" forecolor="#666666" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567900"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="80" y="20" width="250" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567901"/>
+					<textFieldExpression><![CDATA[$P{FECHA_EMISION}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#F0F0F0" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567902">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="0" width="370" height="20" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567903"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="0" width="100" height="20" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567904"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement x="10" y="0" width="370" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567905"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{examen.nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="445" y="0" width="100" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567906"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{precioCobrado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="17" width="555" height="1" forecolor="#F0F0F0" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567907"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="120" splitType="Stretch">
+			<line>
+				<reportElement x="340" y="10" width="215" height="1" forecolor="#333333" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567908"/>
+			</line>
+			<staticText>
+				<reportElement x="340" y="15" width="100" height="15" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567909"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Subtotal:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="445" y="15" width="100" height="15" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567803"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{SUBTOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="30" width="100" height="15" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567804"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Descuento:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="445" y="30" width="100" height="15" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567805"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DESCUENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="45" width="100" height="15" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567806"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Impuestos:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="445" y="45" width="100" height="15" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567807"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{IMPUESTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="65" width="100" height="20" forecolor="#4A90E2" uuid="e1b2c3d4-e5f6-7890-abcd-ef1234567808"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PAGAR:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="445" y="65" width="100" height="20" forecolor="#4A90E2" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567910"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="555" height="30" forecolor="#999999" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567911"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Autorización de Facturación conforme a la Resolución DIAN No. 18762000001 de 2024.
+Régimen Común - Actividad Económica 8690.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

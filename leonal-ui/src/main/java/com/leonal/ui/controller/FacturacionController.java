@@ -33,6 +33,7 @@ public class FacturacionController {
     private final ObtenerOrdenPorIdUseCase obtenerOrdenPorIdUseCase;
     private final ActualizarTotalCajaUseCase actualizarTotalCajaUseCase;
     private final ListarCajasUseCase listarCajasUseCase;
+    private final com.leonal.application.usecase.factura.GenerarReporteFacturaUseCase generarReporteFacturaUseCase;
     private final UserSession userSession;
 
     // Sección Selección de Orden
@@ -80,6 +81,8 @@ public class FacturacionController {
     private Button btnLimpiar;
     @FXML
     private Button btnBuscar;
+    @FXML
+    private Button btnImprimir; // Botón nuevo o existente si se agrega al FXML
 
     private OrdenDto ordenActual;
     private Map<String, UUID> mapaOrdenes = new HashMap<>();
@@ -90,6 +93,16 @@ public class FacturacionController {
         configurarComboBox();
         cargarOrdenes();
         cargarFacturas();
+        if (btnImprimir != null) {
+            btnImprimir.setDisable(true); // Deshabilitado al inicio
+        }
+
+        // Listener para selección en tabla
+        tblFacturas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null && btnImprimir != null) {
+                btnImprimir.setDisable(false);
+            }
+        });
     }
 
     private void configurarTabla() {
@@ -190,11 +203,50 @@ public class FacturacionController {
             }
 
             mostrarExito("Factura creada: " + factura.getNumero());
+
+            // Preguntar si desea imprimir
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Imprimir Factura");
+            alert.setHeaderText("Factura creada exitosamente");
+            alert.setContentText("¿Desea imprimir la factura ahora?");
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                imprimirFactura(factura.getId(), factura.getNumero());
+            }
+
             limpiarFormulario();
             cargarFacturas();
             cargarOrdenes();
         } catch (Exception e) {
             mostrarError("Error al crear factura: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleImprimir() {
+        FacturaDto selected = tblFacturas.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            imprimirFactura(selected.getId(), selected.getNumero());
+        } else {
+            mostrarError("Seleccione una factura de la tabla para imprimir");
+        }
+    }
+
+    private void imprimirFactura(UUID facturaId, String numeroFactura) {
+        try {
+            byte[] pdfBytes = generarReporteFacturaUseCase.execute(facturaId);
+
+            // Guardar archivo temporal
+            String filename = "factura_" + numeroFactura + ".pdf";
+            java.nio.file.Path tempPath = java.nio.file.Path.of(System.getProperty("java.io.tmpdir"), filename);
+            java.nio.file.Files.write(tempPath, pdfBytes);
+
+            // Abrir archivo
+            java.awt.Desktop.getDesktop().open(tempPath.toFile());
+
+        } catch (Exception e) {
+            mostrarError("Error al imprimir factura: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
