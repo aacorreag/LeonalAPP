@@ -67,8 +67,17 @@ public class UiConfig {
   }
 
   @Bean
-  public DashboardController dashboardController(UserSession userSession, ApplicationEventPublisher eventPublisher) {
-    return new DashboardController(userSession, eventPublisher);
+  public com.leonal.application.usecase.dashboard.ObtenerDashboardStatsUseCase obtenerDashboardStatsUseCase(
+      com.leonal.domain.port.output.OrdenRepositoryPort ordenRepository,
+      com.leonal.domain.port.output.FacturaRepositoryPort facturaRepository) {
+    return new com.leonal.application.usecase.dashboard.ObtenerDashboardStatsUseCase(ordenRepository,
+        facturaRepository);
+  }
+
+  @Bean
+  public DashboardController dashboardController(UserSession userSession, ApplicationEventPublisher eventPublisher,
+      com.leonal.application.usecase.dashboard.ObtenerDashboardStatsUseCase obtenerStats) {
+    return new DashboardController(userSession, eventPublisher, obtenerStats);
   }
 
   @Bean

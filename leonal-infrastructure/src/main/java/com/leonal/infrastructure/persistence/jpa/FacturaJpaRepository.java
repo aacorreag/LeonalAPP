@@ -26,4 +26,7 @@ public interface FacturaJpaRepository extends JpaRepository<FacturaEntity, UUID>
 
     @Query("SELECT MAX(CAST(SUBSTRING(f.numero, 10) AS INTEGER)) FROM FacturaEntity f")
     Optional<Integer> findMaxNumeroSequence();
+
+    @Query("SELECT SUM(f.total) FROM FacturaEntity f WHERE f.fechaEmision = :fecha AND f.estado <> 'ANULADA'")
+    java.math.BigDecimal sumTotalByFecha(@Param("fecha") java.time.LocalDate fecha);
 }

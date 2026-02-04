@@ -23,4 +23,9 @@ public interface OrdenJpaRepository extends JpaRepository<OrdenEntity, UUID> {
 
   @Query("SELECT o FROM OrdenEntity o WHERE o.id NOT IN (SELECT f.ordenId FROM FacturaEntity f WHERE f.estado != 'ANULADA') ORDER BY o.fechaRecepcion DESC")
   List<OrdenEntity> findUnbilled();
+
+  long countByEstadoIn(List<String> estados);
+
+  @Query("SELECT CAST(o.fechaRecepcion AS date) as dia, COUNT(o) as cantidad FROM OrdenEntity o WHERE o.fechaRecepcion >= :startDate GROUP BY CAST(o.fechaRecepcion AS date) ORDER BY CAST(o.fechaRecepcion AS date) ASC")
+  List<Object[]> countOrdenesPorDiaDesde(@Param("startDate") LocalDateTime startDate);
 }

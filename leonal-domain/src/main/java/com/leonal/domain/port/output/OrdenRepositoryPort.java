@@ -17,5 +17,10 @@ public interface OrdenRepositoryPort {
 
   long countByFecha(java.time.LocalDate fecha);
 
+  long countPendientes();
+
+  // Retorna una lista de objetos donde [0] = Dia (String), [1] = Cantidad (Long)
+  List<Object[]> countOrdenesPorDiaUltimaSemana();
+
   List<Orden> findAllUnbilled();
 }

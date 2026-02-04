@@ -89,4 +89,20 @@ public class OrdenRepositoryAdapter implements OrdenRepositoryPort {
         .map(ordenMapper::toDomain)
         .collect(Collectors.toList());
   }
+
+  @Override
+  @Transactional(readOnly = true)
+  public long countPendientes() {
+    // Definir qué estados se consideran "pendientes"
+    // Si no está el Enum, usamos Strings.
+    // Asumiremos todo lo que no esté "COMPLETADA" o "ENTREGADA"
+    return ordenJpaRepository.countByEstadoIn(List.of("PENDIENTE", "REGISTRADA", "EN_PROCESO"));
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Object[]> countOrdenesPorDiaUltimaSemana() {
+    LocalDateTime haceSieteDias = LocalDateTime.now().minusDays(6).with(LocalTime.MIN);
+    return ordenJpaRepository.countOrdenesPorDiaDesde(haceSieteDias);
+  }
 }

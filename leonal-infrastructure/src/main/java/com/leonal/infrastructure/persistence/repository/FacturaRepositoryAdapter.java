@@ -96,4 +96,10 @@ public class FacturaRepositoryAdapter implements FacturaRepositoryPort {
         String year = String.valueOf(Year.now().getValue());
         return String.format("FAC-%s-%06d", year, nextNumber);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public java.math.BigDecimal sumTotalByFecha(LocalDate fecha) {
+        return jpaRepository.sumTotalByFecha(fecha);
+    }
 }
